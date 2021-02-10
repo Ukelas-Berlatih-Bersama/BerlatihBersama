@@ -1,6 +1,7 @@
 let initialState = {
   isLogin: false,
   // user: "",
+  message: "",
 };
 
 function reducerLogin(state = initialState, action) {
@@ -11,13 +12,19 @@ function reducerLogin(state = initialState, action) {
       let newState = {
         ...state,
         isLogin: true,
-        // user: action.payload.username,
+        // user: action.payload.email,
       };
       return newState;
 
     case "LOGOUT":
       localStorage.removeItem("access_token");
       return false;
+
+    case "REGISTER":
+      return {
+        ...state,
+        message: action.value,
+      };
 
     default:
       return state;

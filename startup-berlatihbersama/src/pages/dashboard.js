@@ -1,4 +1,5 @@
 import React from "react";
+import imageTeacher from "../../img/illustration_teacher.jpg";
 
 function dashboard() {
   return (

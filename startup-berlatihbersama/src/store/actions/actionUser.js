@@ -37,21 +37,33 @@ export function logout() {
   };
 }
 
-export function register(payload) {
+export function register_siswa({ email, password }) {
   return (dispatch) => {
-    fetch("http://localhost:3001/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => res.json())
-      .then((res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          "https://prod-qore-app.qorebase.io/zZiznDFqublSQFo/allMember/forms/formRegistrasiSiswa",
+          {
+            email,
+            password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(({ data }) => {
+          dispatch({
+            type: "REGISTER",
+            payload: data,
+            value: "Anda sudah terdaftar",
+          });
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   };
 }
-
-export function getAllMember(params) {}
