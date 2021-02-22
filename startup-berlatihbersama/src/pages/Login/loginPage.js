@@ -10,10 +10,11 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-// import qoreContext from "../../qoreContext";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/actionUser";
+import qoreContext from "../../qoreContext";
+import { QoreProject } from "@feedloop/qore-client";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,6 +42,11 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
+  // const member = qoreContext.view("allMember").useListRow();
+  // const firstMember = member.data.email;
+
+  // console.log(member, ">>> member");
+
   const isLogin = useSelector((state) => state.reducerLogin.isLogin);
 
   function handleLogin(event) {
@@ -54,7 +60,7 @@ export default function Login() {
 
   return (
     <>
-      {isLogin ? <Redirect to="/dashboard" /> : null}
+      {isLogin ? <Redirect to="/" /> : null}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>

@@ -11,7 +11,7 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { register_guru } from "../../store/actions/actionUser";
+import { register_siswa } from "../../store/actions/actionUser";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 // import qoreContext from "../../qoreContext";
@@ -50,7 +50,7 @@ export default function Register() {
       email,
       password,
     };
-    dispatch(register_guru(payload));
+    dispatch(register_siswa(payload));
     history.push("/");
   }
 
@@ -62,7 +62,7 @@ export default function Register() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Register Guru
+          Register Siswa
         </Typography>
         <form onSubmit={handleRegister} className={classes.form} noValidate>
           <Grid container spacing={2}>

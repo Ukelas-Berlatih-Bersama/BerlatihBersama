@@ -8,7 +8,15 @@ import store from "../store";
 // import pages
 import Login from "./Login/loginPage";
 import Register from "./Register/registerPage";
-import Dashboard from "./dashboard";
+import Dashboard from "./Dashboard/dashboard";
+import RegisterTeacher from "./Register/registerTeacher";
+import RegisterStudent from "./Register/registerStudent";
+import ProfilePage from "./ProfileUser/profile";
+import AddNewClass from "./Dashboard/addNewClass";
+import EditProfile from "./ProfileUser/editProfile";
+import Classroom from "./Classroom/insideClassroom";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import qoreContext from "../qoreContext";
 
@@ -23,9 +31,11 @@ export default function index() {
         <Router>
           <div>
             <Switch>
-              <Route exact path="/" component={Login} />
+              <Route exact path="/login" component={BeforeEnterContainer} />
               <Route path="/register" component={Register} />
-              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/registerTeacher" component={RegisterTeacher} />
+              <Route path="/registerStudent" component={RegisterStudent} />
+              <Route component={DefaultContainer} />
             </Switch>
           </div>
         </Router>
@@ -34,10 +44,53 @@ export default function index() {
   );
 }
 
-// function BeforeEnterContainer() {
-//   return (
-//     <div>
-//       <Route path="/login" component={Login} />
-//     </div>
-//   );
-// }
+function BeforeEnterContainer() {
+  return (
+    <div>
+      <Route path="/login" component={Login} />
+    </div>
+  );
+}
+
+function DefaultContainer() {
+  return (
+    <div>
+      <PrivateRoute path="/" exact>
+        <Dashboard />
+      </PrivateRoute>
+      <PrivateRoute path="/profile">
+        <ProfilePage />
+      </PrivateRoute>
+      <PrivateRoute path="/edit_profile">
+        <EditProfile />
+      </PrivateRoute>
+      <PrivateRoute path="/add_class">
+        <AddNewClass />
+      </PrivateRoute>
+      <PrivateRoute path="/classroom/:id">
+        <Classroom />
+      </PrivateRoute>
+    </div>
+  );
+}
+
+function PrivateRoute({ children, ...rest }) {
+  useSelector((state) => state.isLogin);
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        localStorage.getItem("token") ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
