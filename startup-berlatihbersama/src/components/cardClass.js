@@ -15,11 +15,11 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    marginTop: "25%",
+    marginBottom: "25%",
     alignContent: "center",
   },
   media: {
-    height: 140,
+    height: 100,
   },
 }));
 

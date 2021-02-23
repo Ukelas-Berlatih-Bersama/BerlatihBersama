@@ -26,6 +26,9 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: ["Rubik", "sans-serif"].join(","),
   },
+  button: {
+    fontFamily: ["Rubik", "sans-serif"].join(","),
+  }
 });
 
 export default function index() {

@@ -9,6 +9,8 @@ import {
   List,
   Typography,
   Grid,
+  Button,
+  Box,
 } from "@material-ui/core";
 import Sidebar from "../../components/sidebar";
 import Classroom from "../../components/cardClass";
@@ -19,6 +21,9 @@ const drawerWidth = 200;
 
 const useStyle = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
+  margin: {
+    margin: theme.spacing(1),
+  }
 }));
 
 function Dashboard() {
@@ -32,17 +37,28 @@ function Dashboard() {
   console.log(classroom, "<<<classroom");
 
   return (
-    <div style={{ display: "flex" }}>
+    <div>
       <CssBaseline />
       <Navbar />
-      {/* <Sidebar></Sidebar> */}
+      <Container maxWidth="lg">
+        <Box display="flex" justifyContent="space-between" style={{padding: "0 1em", margin: "5em auto"}}>
+          <Box>
+            <Typography variant="h4">Semua Kelas</Typography>
+            <Typography>Pilih dan kelola kelas Anda dengan mudah</Typography>
+          </Box>
+          <Box>
+            <Button variant="contained" color="primary" className={classes.margin}>Tambah Kelas</Button>
+            <Button variant="outlined" color="primary" className={classes.margin}>Gabung Kelas</Button>
+          </Box>
+        </Box>
+      </Container>
       <Container maxWidth="lg">
         <main style={{ flexGrow: 2, padding: 30 }}>
           <div className={classes.toolbar}>
             <Grid container spacing={2}>
               {classroom.map((room, i) => {
                 return (
-                  <Grid item xs={3} key={i}>
+                  <Grid item xs={4} key={i}>
                     <Classroom room={room} key={i} />
                   </Grid>
                 );
