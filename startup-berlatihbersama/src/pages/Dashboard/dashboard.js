@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Drawer,
   CssBaseline,
+  Container,
   AppBar,
   Toolbar,
   List,
@@ -12,6 +13,7 @@ import {
 import Sidebar from "../../components/sidebar";
 import Classroom from "../../components/cardClass";
 import qoreContext from "../../qoreContext";
+import Navbar from "../../components/Navbar";
 
 const drawerWidth = 200;
 
@@ -32,33 +34,23 @@ function Dashboard() {
   return (
     <div style={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        style={{
-          width: `calc(100% - ${drawerWidth}px)`,
-          marginLeft: drawerWidth,
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap>
-            Dashboard
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Sidebar></Sidebar>
-      <main style={{ flexGrow: 2, padding: 30 }}>
-        <div className={classes.toolbar}>
-          <Grid container spacing={2}>
-            {classroom.map((room, i) => {
-              return (
-                <Grid item xs={3} key={i}>
-                  <Classroom room={room} key={i} />
-                </Grid>
-              );
-            })}
-          </Grid>
-        </div>
-      </main>
+      <Navbar />
+      {/* <Sidebar></Sidebar> */}
+      <Container maxWidth="lg">
+        <main style={{ flexGrow: 2, padding: 30 }}>
+          <div className={classes.toolbar}>
+            <Grid container spacing={2}>
+              {classroom.map((room, i) => {
+                return (
+                  <Grid item xs={3} key={i}>
+                    <Classroom room={room} key={i} />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </div>
+        </main>
+      </Container>
     </div>
   );
 }
