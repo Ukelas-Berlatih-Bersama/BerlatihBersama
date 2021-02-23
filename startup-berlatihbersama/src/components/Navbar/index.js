@@ -2,6 +2,7 @@ import {
   Container,
   Box,
   Badge,
+  Button,
   AppBar,
   Toolbar,
   Typography,
@@ -11,8 +12,11 @@ import {
 
 import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 
 import Logo from "../../image/brand-logo.svg";
+
+import "./index.css";
 
 const Navbar = function (props) {
   const navbarStyle = {
@@ -22,17 +26,18 @@ const Navbar = function (props) {
   };
 
   return (
-    <AppBar position="fixed" style={navbarStyle}>
+    <AppBar position="static" style={navbarStyle}>
       <Container maxWidth="lg">
         <Box display="flex" justifyContent="space-between">
           <Toolbar>
             <img src={Logo} />
           </Toolbar>
-          <Toolbar>
-            <Typography>
-              Kelas
-            </Typography>
-          </Toolbar>
+          <Box display="flex" justifyContent="space-between">
+            <Toolbar className="menu-item active">
+              <HomeOutlinedIcon style={{ marginRight: ".5em" }} />
+              <Typography>Kelas</Typography>
+            </Toolbar>
+          </Box>
           <Toolbar>
             <IconButton>
               <Badge
