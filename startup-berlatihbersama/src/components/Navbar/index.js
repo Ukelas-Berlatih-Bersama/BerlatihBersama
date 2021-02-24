@@ -2,7 +2,6 @@ import {
   Container,
   Box,
   Badge,
-  Button,
   AppBar,
   Toolbar,
   Typography,
