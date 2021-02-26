@@ -16,6 +16,7 @@ import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import Logo from "../../image/brand-logo.svg";
 
 import "./index.css";
+import ProfileMenu from "./ProfileMenu";
 
 const Navbar = function (props) {
   const navbarStyle = {
@@ -48,29 +49,7 @@ const Navbar = function (props) {
                 <NotificationsNoneOutlinedIcon />
               </Badge>
             </IconButton>
-            <Avatar style={{ borderRadius: "4px", margin: "auto 1em" }}>
-              N
-            </Avatar>
-            <div style={{ marginRight: "1em" }}>
-              <Typography
-                variant="body"
-                display="block"
-                noWrap
-                style={{ fontWeight: 500 }}
-              >
-                John Doe
-              </Typography>
-              <Typography
-                variant="caption"
-                display="block"
-                style={{ color: "#6B7380" }}
-              >
-                john.doe@gmail.com
-              </Typography>
-            </div>
-            <IconButton>
-              <ExpandMoreOutlinedIcon />
-            </IconButton>
+            <ProfileMenu />
           </Toolbar>
         </Box>
       </Container>
