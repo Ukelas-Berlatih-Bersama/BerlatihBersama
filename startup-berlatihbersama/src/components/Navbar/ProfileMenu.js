@@ -19,10 +19,8 @@ import qoreContext from "../../qoreContext";
 const ProfileMenu = function (props) {
   const dispatch = useDispatch();
   const history = useHistory();
-    // const { user, status } = qoreContext.useCurrentUser();
-
-    // console.log(user, ">>> profile data");
-  //   console.log(status, ">>> status");
+//   const { user } = qoreContext.useCurrentUser();
+//   console.debug(user);
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
