@@ -5,17 +5,15 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Avatar,
   IconButton,
 } from "@material-ui/core";
 
-import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
-import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 
 import Logo from "../../image/brand-logo.svg";
 
 import "./index.css";
+import NotificationMenu from "./NotificationMenu";
 import ProfileMenu from "./ProfileMenu";
 
 const Navbar = function (props) {
@@ -39,16 +37,7 @@ const Navbar = function (props) {
             </Toolbar>
           </Box>
           <Toolbar>
-            <IconButton>
-              <Badge
-                color="secondary"
-                badgeContent={2}
-                color="secondary"
-                overlap="circle"
-              >
-                <NotificationsNoneOutlinedIcon />
-              </Badge>
-            </IconButton>
+            <NotificationMenu />
             <ProfileMenu />
           </Toolbar>
         </Box>
