@@ -13,8 +13,8 @@ import RegisterTeacher from "./Register/registerTeacher";
 import RegisterStudent from "./Register/registerStudent";
 import ProfilePage from "./ProfileUser/profile";
 import AddNewClass from "./Dashboard/addNewClass";
-import EditProfile from "./ProfileUser/editProfile";
 import Classroom from "./Classroom/insideClassroom";
+import Module from "./Classroom/Module/module";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -55,20 +55,21 @@ function BeforeEnterContainer() {
 function DefaultContainer() {
   return (
     <div>
+      {/* <Navbar /> */}
       <PrivateRoute path="/" exact>
         <Dashboard />
       </PrivateRoute>
       <PrivateRoute path="/profile">
         <ProfilePage />
       </PrivateRoute>
-      <PrivateRoute path="/edit_profile">
-        <EditProfile />
-      </PrivateRoute>
       <PrivateRoute path="/add_class">
         <AddNewClass />
       </PrivateRoute>
-      <PrivateRoute path="/classroom/:id">
+      <PrivateRoute path="/classroom/:someClassroomId">
         <Classroom />
+      </PrivateRoute>
+      <PrivateRoute path="/subject/:subjectId">
+        <Module />
       </PrivateRoute>
     </div>
   );
