@@ -8,13 +8,13 @@ import {
   Button,
   Grid,
   Container,
+  Box,
+  Typography
 } from "@material-ui/core";
+import Icon from "@material-ui/core/Icon";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    height: "100hv",
-  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -23,19 +23,46 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     width: 400,
+    padding: "2em"
   },
   media: {
-    height: 400,
+    height: '10em',
+    width: '10em',
+
   },
 }));
-
+const svgIcon = (
+  <Icon>
+    <img alt="edit" src="https://i.imgur.com/XPmFXHy.png" />
+  </Icon>
+);
 export default function MediaCard() {
   const classes = useStyles();
 
   return (
     <div className={classes.background}>
-      <Container className={classes.container}>
-        {/* <Typography>REGISTER</Typography> */}
+      <Box display="flex" p={1} bgcolor="background.paper" style={{margin: '0 3em'}}>
+        <Box p={1} width="100%" >
+          {svgIcon}
+        </Box>
+        <Box p={1} flexShrink={0}>
+          Sudah punya akun? 
+          <Link to="/login" style={{textDecoration: 'none'}}>
+            Masuk Sekarang
+          </Link>
+        </Box>
+      </Box>
+      <Box display="flex" justifyContent="center" style={{marginTop: '5rem'}}>
+        <Typography  component="h1" variant="h4">
+          Pendaftaran Akun.
+        </Typography>
+      </Box>
+      <Box display="flex" justifyContent="center">
+        <Typography  component="h1" variant="h4">
+          Silahkan pilih jenis akun Anda
+        </Typography>
+      </Box>
+      <Container>
         <div className={classes.paper}>
           <Grid
             item
@@ -49,43 +76,50 @@ export default function MediaCard() {
             <Card className={classes.root}>
               <CardActionArea>
                 <Link to="/registerTeacher">
-                  <CardMedia
-                    className={classes.media}
-                    image="https://media.istockphoto.com/vectors/back-to-school-concept-with-young-smiling-woman-teacher-and-group-of-vector-id1173081238?k=6&m=1173081238&s=612x612&w=0&h=1vlJB89YaIm5ZateN4pcs5q5xTAu3DUxg-OETok6O7M="
-                    // title="Contemplative Reptile"
-                  />
+                  <Box align="center">
+                    <CardMedia
+                      className={classes.media}
+                      image="https://i.imgur.com/PJeRJQ0.png"
+                    />
+                  </Box>
                 </Link>
               </CardActionArea>
-              <CardActions>
-                <Button size="large" color="primary">
-                  Guru
-                </Button>
-              </CardActions>
+              <Typography align="center" style={{fontSize: '1.5rem', fontWeight: 'bold'}}>
+                Akun Guru
+              </Typography>
+              <Typography align="center" style={{fontSize: '1rem', color: '#6B7380'}}>
+                Digunakan oleh guru atau asisten guru untuk mengelola kelas, mengelola materi dan tugas
+              </Typography>
             </Card>
             <Card className={classes.root}>
               <CardActionArea>
                 <Link to="/registerStudent">
-                  <CardMedia
-                    className={classes.media}
-                    image="https://media.istockphoto.com/vectors/woman-with-laptop-studying-or-working-concept-table-with-books-lamp-vector-id1164538944?k=6&m=1164538944&s=612x612&w=0&h=jbDbq7B1RjXr_F-GUoseLBXZcUmgyNAGiTWrycEq6Oo="
-                    // title="Contemplative Reptile"
-                  />
+                  <Box align="center">
+                    <CardMedia
+                      className={classes.media}
+                      image="https://i.imgur.com/Ido9BDM.png"
+                    />
+                  </Box>
                 </Link>
               </CardActionArea>
-              <CardActions>
-                <Button size="large" color="primary">
-                  Siswa
-                </Button>
-              </CardActions>
+              <Typography align="center" style={{fontSize: '1.5rem', fontWeight: 'bold'}}>
+                Akun Siswa
+              </Typography>
+              <Typography align="center" style={{fontSize: '1rem', color: '#6B7380'}}>
+                Digunakan oleh siswa untuk melihat materi dan tugas yang tersedia
+              </Typography>
             </Card>
           </Grid>
-          <Grid container justify="center">
+          {/* <Grid container justify="center">
             <Grid item>
               <Link to="/login" variant="body2">
                 Back to Login Page
               </Link>
             </Grid>
-          </Grid>
+          </Grid> */}
+          <Typography style={{fontSize: '.7rem', color: '#6B7380', marginTop: '15em'}}>
+            2020 © Berlatihbersama. All rights reserved.
+          </Typography>
         </div>
       </Container>
     </div>
