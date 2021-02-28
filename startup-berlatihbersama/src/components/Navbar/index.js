@@ -36,7 +36,7 @@ const Navbar = function (props) {
               <Typography>Kelas</Typography>
             </Toolbar>
           </Box>
-          <Toolbar>
+          <Toolbar style={{padding: 0}}>
             <NotificationMenu />
             <ProfileMenu />
           </Toolbar>
