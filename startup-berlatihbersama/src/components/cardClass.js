@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   action: {
-    backgroundColor: "white",
     color: "#111828",
     display: "flex",
     justifyContent: "space-between",
