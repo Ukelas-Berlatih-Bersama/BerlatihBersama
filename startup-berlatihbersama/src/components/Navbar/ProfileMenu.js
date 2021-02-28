@@ -16,11 +16,14 @@ import { useHistory, Link } from "react-router-dom";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
 import qoreContext from "../../qoreContext";
 
+import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
+import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
+
 const ProfileMenu = function (props) {
   const dispatch = useDispatch();
   const history = useHistory();
-//   const { user } = qoreContext.useCurrentUser();
-//   console.debug(user);
+  //   const { user } = qoreContext.useCurrentUser();
+  //   console.debug(user);
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -87,31 +90,45 @@ const ProfileMenu = function (props) {
         <ExpandMoreOutlinedIcon />
       </IconButton>
       <Popper
-        style={{ zIndex: 1500 }}
         open={open}
+        placement="bottom-end"
+        style={{
+          width: 240,
+          marginTop: 24,
+        }}
         anchorEl={anchorRef.current}
         role={undefined}
         transition
-        disablePortal
       >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
               transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
+                placement === "bottom-end" ? "right top" : "center bottom",
             }}
           >
-            <Paper>
+            <Paper
+              style={{
+                boxShadow: "0px 4px 10px rgba(107, 115, 128, 0.05)",
+                borderRadius: 4,
+              }}
+            >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleLogout} style={{ color: "red" }}>
-                    Keluar
+                  <MenuItem onClick={handleClose} style={{ padding: 16 }}>
+                    <PersonOutlineOutlinedIcon style={{marginRight: 12}} /> Profile
+                  </MenuItem>
+                  <hr style={{borderTop: "1px solid #F3F4F6", borderBottom: 0, margin: "0 16px"}} />
+                  <MenuItem
+                    onClick={handleLogout}
+                    style={{ color: "red", padding: 16 }}
+                  >
+                    <ExitToAppOutlinedIcon style={{marginRight: 12}} /> Keluar
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

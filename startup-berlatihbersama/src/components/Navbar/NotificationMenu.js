@@ -59,17 +59,17 @@ const NotificationMenu = function (props) {
       </IconButton>
       <Popper
         open={open}
+        placement="bottom-end"
         anchorEl={anchorRef.current}
         role={undefined}
         transition
-        disablePortal
       >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
               transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
+                placement === "bottom-end" ? "right top" : "center bottom",
             }}
           >
             <Paper>
