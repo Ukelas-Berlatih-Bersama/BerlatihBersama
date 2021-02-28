@@ -63,7 +63,7 @@ const ProfileMenu = function (props) {
 
   return (
     <>
-      <Avatar style={{ borderRadius: "4px", margin: "auto 1em" }}>N</Avatar>
+      <Avatar style={{ borderRadius: "4px", margin: "auto 1em" }} src="https://randomuser.me/api/portraits/men/20.jpg">JD</Avatar>
       <div style={{ marginRight: "1em" }}>
         <Typography
           variant="body"
