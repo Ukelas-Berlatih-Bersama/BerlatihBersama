@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardClass({ room }) {
-  console.log(room, ">>> room");
   const classes = useStyles();
 
   return (
@@ -51,7 +50,7 @@ export default function CardClass({ room }) {
             {room.name}
           </Typography>
           <Typography style={{ fontSize: 14 }}>
-            Tahun Ajaran: 2020/2021
+            Tahun Ajaran: {room.schoolYear}
           </Typography>
         </CardContent>
       </CardActionArea>
