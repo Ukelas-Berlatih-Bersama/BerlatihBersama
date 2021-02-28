@@ -63,7 +63,7 @@ const Header = (props) => {
       <Box
         display="flex"
         justifyContent="space-between"
-        style={{ padding: "0 1em", margin: "5em auto" }}
+        style={{ margin: "5em auto" }}
       >
         <Box>
           <Typography variant="h4" style={{ marginBottom: 12 }}>

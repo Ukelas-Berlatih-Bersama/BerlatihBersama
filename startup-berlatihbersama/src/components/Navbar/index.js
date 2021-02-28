@@ -27,7 +27,7 @@ const Navbar = function (props) {
     <AppBar position="static" style={navbarStyle}>
       <Container maxWidth="lg">
         <Box display="flex" justifyContent="space-between">
-          <Toolbar>
+          <Toolbar style={{padding: 0}}>
             <img src={Logo} />
           </Toolbar>
           <Box display="flex" justifyContent="space-between">

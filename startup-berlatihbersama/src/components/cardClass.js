@@ -6,20 +6,29 @@ import {
   Typography,
   CardMedia,
   CardContent,
-  Button,
+  Box,
   CardActions,
 } from "@material-ui/core";
 import qoreContext from "../qoreContext";
 import { Link } from "react-router-dom";
 
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
-    marginBottom: "25%",
-    alignContent: "center",
+    boxShadow: "0px 4px 10px rgba(107, 115, 128, 0.05)",
   },
-  media: {
-    height: 100,
+  content: {
+    backgroundColor: "#4267E9",
+    color: "white",
+  },
+  action: {
+    backgroundColor: "white",
+    color: "#111828",
+    display: "flex",
+    justifyContent: "space-between",
+    padding: 16,
   },
 }));
 
@@ -28,21 +37,37 @@ export default function CardClass({ room }) {
   const classes = useStyles();
 
   return (
+    // TODO: handle onclick room (enter the classroom when it clicked)
     <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia className={classes.media} image={room.name} />
+      <CardActionArea className={classes.content}>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          {/* TODO: Add ction menu for edit and delete room */}
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            style={{ fontWeight: "bold" }}
+          >
             {room.name}
+          </Typography>
+          <Typography style={{ fontSize: 14 }}>
+            Tahun Ajaran: 2020/2021
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Link to={`/classroom/${room.id}`}>
-          <Button size="medium" color="primary">
-            Masuk
-          </Button>
-        </Link>
+      <CardActions className={classes.action}>
+        <Box display="flex" alignItems="center">
+          <DescriptionOutlinedIcon style={{ marginRight: 4 }} />
+          <Typography style={{ fontSize: 14 }}>
+            {room.subject.totalCount} Mata Pelajaran
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center">
+          <PersonOutlineIcon style={{ marginRight: 4 }} />
+          <Typography style={{ fontSize: 14 }}>
+            {room.siswa.totalCount} Siswa
+          </Typography>
+        </Box>
       </CardActions>
     </Card>
   );

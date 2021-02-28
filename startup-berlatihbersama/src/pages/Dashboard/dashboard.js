@@ -57,9 +57,9 @@ function Dashboard() {
       <Navbar />
       <Header />
       <Container maxWidth="lg">
-        <main style={{ flexGrow: 2, padding: 30 }}>
+        <main style={{ flexGrow: 2 }}>
           <div className={classes.toolbar}>
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               {classroom.map((room, i) => {
                 return (
                   <Grid item xs={4} key={i}>
