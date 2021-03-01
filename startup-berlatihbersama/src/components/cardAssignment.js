@@ -11,14 +11,18 @@ import {
   ButtonGroup,
   Grid,
   Container,
-  Card,
-  CardContent,
-  CardMedia,
+  IconButton,
 } from "@material-ui/core";
+import DateFnsUtils from "@date-io/date-fns";
 import qoreContext from "../qoreContext";
-import { Link } from "react-router-dom";
-import { ArrowRight, MoreVert, Image, Description } from "@material-ui/icons";
+import { ArrowRight, MoreVert, Image } from "@material-ui/icons";
 import LinkIcon from "@material-ui/icons/Link";
+import Moment from "react-moment";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker,
+} from "@material-ui/pickers";
 
 function getModalStyle() {
   return {
@@ -38,42 +42,56 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 50,
   },
+  paper: {
+    display: "flex",
+    margin: "10px 0 10px 0",
+    justifyContent: "space-between",
+  },
+  gray: {
+    display: "flex",
+  },
 }));
 
-export default function CardMateri({ node }) {
-  // console.log(node.id, ">>> room");
+export default function CardAssignment({ node }) {
   const classes = useStyles();
+  //   console.log(node, ">>> node assign");
   const [open, setOpen] = React.useState(false);
   const [buka, setBuka] = React.useState(false);
   const [show, setShow] = React.useState(false);
-  const [img, setImg] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [edit, setEdit] = useState("");
   const [desc, setDesc] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalStyle] = React.useState(getModalStyle);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const { data: modul, status } = qoreContext
-    .view("allModule")
+  const { data: assignment, status } = qoreContext
+    .view("allAssignment")
     .useGetRow(node.id);
-  console.log(JSON.stringify(modul, null, 2), ">>>> id");
+  console.log(assignment, ">>>> id");
 
-  const { updateRow } = qoreContext.view("allModule").useUpdateRow();
-  // console.log(updateRow, ">> update");
-  // console.log(status, ">>>> status");
+  const { updateRow } = qoreContext.view("allAssignment").useUpdateRow();
+  //   console.log(updateRow, ">> update");
+  //   console.log(status, ">>>> status");
 
-  const { deleteRow } = qoreContext.view("allModule").useDeleteRow();
+  const { deleteRow } = qoreContext.view("allAssignment").useDeleteRow();
   // console.log(deleteRow, ">>>> delete");
 
-  async function editMateri(e) {
+  async function editAssignment(e) {
     e.preventDefault();
     // console.log(node.id, ">>>di editSubject()");
-    await updateRow(node.id, { title: edit, description: desc }).then(
-      handleClose
-    );
-    // window.location.reload();
+    await updateRow(node.id, {
+      name: edit,
+      description: desc,
+      deadline: selectedDate,
+    }).then(handleClose);
+    window.location.reload();
   }
+
+  const handleChangeDate = (date) => {
+    setSelectedDate(date);
+  };
 
   const handleOpen = (e) => {
     e.preventDefault();
@@ -108,70 +126,32 @@ export default function CardMateri({ node }) {
     setShow(false);
   };
 
-  const handleShowImage = (url) => {};
-
-  const handleHide = () => {
-    setImg(false);
-  };
-
   return (
     <>
       {status == "success" ? (
         <Grid>
-          <Paper
-            style={{
-              margin: "10px 0 10px 0",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-            elevation={3}
-            square
-          >
-            <Link
-              to={`/assignment/${node.id}`}
+          <Paper className={classes.paper} elevation={3} square>
+            <Typography
+              gutterBottom
+              variant="subtitle1"
+              component="h1"
               style={{
-                textDecoration: "none",
-                color: "black",
-                width: "82%",
+                fontWeight: "bold",
               }}
             >
-              <Typography
-                gutterBottom
-                variant="subtitle1"
-                component="h1"
-                style={{
-                  fontWeight: "bold",
-                }}
-              >
-                {
-                  // <IconButton>
+              {
+                <IconButton>
                   <ArrowRight
                     fontSize="small"
                     style={{
                       color: "blue",
-                      margin: "8px 10px 0 10px",
+                      //   margin: "0 0 0 10px",
                     }}
                   />
-                }
-                {node.displayField}
-              </Typography>
-            </Link>
-            <Link
-              to={`/assignment/${node.id}`}
-              style={{
-                textDecoration: "none",
-                color: "black",
-              }}
-            >
-              <Button
-                variant="text"
-                color="secondary"
-                size="small"
-                style={{ marginTop: 5 }}
-              >
-                Tugas Materi
-              </Button>
-            </Link>
+                </IconButton>
+              }
+              {node.displayField}
+            </Typography>
             <Button
               aria-controls="simple-menu"
               aria-haspopup="true"
@@ -198,9 +178,9 @@ export default function CardMateri({ node }) {
                   justifyContent: "center",
                 }}
               >
-                <form onSubmit={editMateri} className={classes.modal}>
+                <form onSubmit={editAssignment} className={classes.modal}>
                   <Typography variant="h6" style={{ fontWeight: "bold" }}>
-                    Edit Materi
+                    Edit Tugas
                   </Typography>
                   <div>
                     <Typography
@@ -217,8 +197,8 @@ export default function CardMateri({ node }) {
                       label="Judul Materi"
                       name="judul"
                       value={edit}
-                      autoFocus
                       fullWidth
+                      autoFocus
                       onChange={(e) => setEdit(e.target.value)}
                     ></TextField>
                   </div>
@@ -227,7 +207,7 @@ export default function CardMateri({ node }) {
                       variant="subtitle1"
                       style={{ margin: "10px 0 -10px 0" }}
                     >
-                      Deskripsi
+                      Isi Tugas
                     </Typography>
                     <TextField
                       variant="outlined"
@@ -241,7 +221,34 @@ export default function CardMateri({ node }) {
                       onChange={(e) => setDesc(e.target.value)}
                     ></TextField>
                   </div>
-                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <div>
+                    <Typography
+                      variant="subtitle1"
+                      style={{ margin: "10px 0 -10px 0" }}
+                    >
+                      Deadline
+                    </Typography>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDateTimePicker
+                        value={selectedDate}
+                        onChange={handleChangeDate}
+                        label="Tanggal dan waktu"
+                        showTodayButton
+                        inputVariant="outlined"
+                        id="time"
+                        name="time"
+                        fullWidth
+                        style={{ marginTop: 15 }}
+                      ></KeyboardDateTimePicker>
+                    </MuiPickersUtilsProvider>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      marginTop: 20,
+                    }}
+                  >
                     <Button color="primary" type="submit">
                       Edit
                     </Button>
@@ -311,8 +318,16 @@ export default function CardMateri({ node }) {
           </Paper>
           <Paper style={{ marginTop: -10 }} elevation={2} square>
             <Container>
+              <div className={classes.gray}>
+                <Typography variant="caption" style={{ color: "#6B7380" }}>
+                  Batas waktu:
+                </Typography>
+                <Typography variant="caption" style={{ paddingLeft: 5 }}>
+                  <Moment format="D MMM YYYY">{assignment.deadline}</Moment>
+                </Typography>
+              </div>
               <Typography variant="body2" style={{ padding: "10px 0 0 0" }}>
-                {modul.description}
+                {assignment.description}
               </Typography>
               <ButtonGroup
                 style={{
@@ -322,122 +337,31 @@ export default function CardMateri({ node }) {
                 }}
                 size="small"
               >
-                {modul.image ? (
-                  <form action={modul.image} method="get" target="_blank">
+                {assignment.image ? (
+                  <form action={assignment.image} method="get" target="_blank">
                     <Button
                       startIcon={<Image />}
                       variant="contained"
                       color="primary"
                       type="submit"
-                    >
-                      Image
-                    </Button>
-                  </form>
-                ) : (
-                  <form>
-                    <Button
-                      startIcon={<Image />}
-                      variant="contained"
-                      color="primary"
-                      // type="submit"
-                      disabled
-                    >
-                      Image
-                    </Button>
-                  </form>
-                )}
-
-                {modul.url ? (
-                  <form action={modul.url} method="get" target="_blank">
-                    <Button
-                      startIcon={<Description />}
-                      variant="contained"
-                      color="secondary"
-                      type="submit"
-                    >
-                      Artikel
-                    </Button>
-                  </form>
-                ) : (
-                  <form>
-                    <Button
-                      startIcon={<Description />}
-                      variant="contained"
-                      color="secondary"
-                      // type="submit"
-                      disabled
-                    >
-                      Artikel
-                    </Button>
-                  </form>
-                )}
-                {/* <Button
-                  startIcon={<LinkIcon />}
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleShow}
-                >
-                  Video URL
-                </Button>
-                <Modal
-                  open={show}
-                  onClose={handleUnshow}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <form
-                    // onSubmit={copyUrl}
-                    className={classes.modal}
-                    style={modalStyle}
-                  >
-                    <Typography variant="h6">Video URL</Typography>
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      // required
-                      id="video"
-                      label="Video URL"
-                      name="video"
-                      value={modul.url}
-                      onChange={(e) => setValue(e.target.value)}
-                      style={{ margin: "15px 0 15px 0" }}
-                    ></TextField>
-                    <ButtonGroup
                       size="small"
-                      style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      <Button
-                        color="primary"
-                        variant="text"
-                        onClick={handleUnshow}
-                      >
-                        Batal
-                      </Button>
-
-                      <CopyToClipboard
-                        text={modul.url}
-                        onCopy={() => setCopied(true)}
-                      >
-                        <Button
-                          style={{
-                            backgroundColor: "inherit",
-                            border: "none",
-                            color: "#f50057",
-                          }}
-                        >
-                          Salin
-                        </Button>
-                      </CopyToClipboard>
-
-                      {copied ? (
-                        <span style={{ color: "red" }}>Copied.</span>
-                      ) : null}
-                    </ButtonGroup>
+                      Gambar
+                    </Button>
                   </form>
-                </Modal> */}
+                ) : (
+                  <form>
+                    <Button
+                      startIcon={<Image />}
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      disabled
+                    >
+                      Gambar
+                    </Button>
+                  </form>
+                )}
               </ButtonGroup>
             </Container>
           </Paper>

@@ -70,7 +70,7 @@ const Navbar = function ({ page }) {
               <Box display="flex" justifyContent="space-between">
                 <Toolbar className="menu-item active">
                   <HomeOutlinedIcon style={{ marginRight: ".5em" }} />
-                  <Typography>Mata Pelajaran</Typography>
+                  {/* <Typography>Mata Pelajaran</Typography> */}
                 </Toolbar>
               </Box>
               <Toolbar>

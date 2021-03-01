@@ -11,6 +11,7 @@ import {
   Tabs,
   Tab,
   Paper,
+  Box,
 } from "@material-ui/core";
 import qoreContext from "../../qoreContext";
 import { useParams, useHistory } from "react-router-dom";
@@ -266,10 +267,11 @@ export default function InsideClassroom() {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="Mata Pelajaran" />
-                  <Tab label="Siswa" />
+                  <Tab style={{ width: 400 }} label="Mata Pelajaran" />
+                  <Tab style={{ width: 400 }} label="Siswa" />
                 </Tabs>
               </Grid>
+
               <div className={classes.add}>
                 <Typography variant="h6">
                   Semua Mata Pelajaran ({classroom.subject.totalCount})
@@ -304,82 +306,84 @@ export default function InsideClassroom() {
                     );
                   })
                 ) : (
-                  <Grid item xs={12}>
-                    <Paper
-                      style={{
-                        padding: "10px",
-                      }}
-                      elevation={0}
-                    >
-                      <div
+                  <Container>
+                    <Grid item xs={12}>
+                      <Paper
                         style={{
-                          borderBottom: "1px solid rgba(171, 183, 183, 1)",
-                          padding: "10px 0 10px 0",
+                          padding: "10px",
                         }}
+                        elevation={0}
                       >
-                        <Typography
-                          variant="body1"
-                          style={{ fontWeight: "bold" }}
+                        <div
+                          style={{
+                            borderBottom: "1px solid rgba(171, 183, 183, 1)",
+                            padding: "10px 0 10px 0",
+                          }}
                         >
-                          Guru ({classroom.teacher.totalCount})
-                        </Typography>
-                      </div>
-                      {classroom.teacher.nodes.map((nod, i) => {
-                        // console.log(nod, ">>> nod");
-                        return (
-                          <div
-                            style={{
-                              display: "flex",
-                              marginTop: 10,
-                              color: "#424242",
-                            }}
+                          <Typography
+                            variant="body1"
+                            style={{ fontWeight: "bold" }}
                           >
-                            <AccountCircle />
-                            <Typography style={{ marginLeft: 5 }}>
-                              {nod.displayField}
-                            </Typography>
-                          </div>
-                        );
-                      })}
-                    </Paper>
-                    <Paper
-                      style={{
-                        padding: "10px",
-                      }}
-                      elevation={0}
-                    >
-                      <div
+                            Guru ({classroom.teacher.totalCount})
+                          </Typography>
+                        </div>
+                        {classroom.teacher.nodes.map((nod, i) => {
+                          // console.log(nod, ">>> nod");
+                          return (
+                            <div
+                              style={{
+                                display: "flex",
+                                marginTop: 10,
+                                color: "#424242",
+                              }}
+                            >
+                              <AccountCircle />
+                              <Typography style={{ marginLeft: 5 }}>
+                                {nod.displayField}
+                              </Typography>
+                            </div>
+                          );
+                        })}
+                      </Paper>
+                      <Paper
                         style={{
-                          borderBottom: "1px solid rgba(171, 183, 183, 1)",
-                          padding: "10px 0 10px 0",
+                          padding: "10px",
                         }}
+                        elevation={0}
                       >
-                        <Typography
-                          variant="body1"
-                          style={{ fontWeight: "bold" }}
+                        <div
+                          style={{
+                            borderBottom: "1px solid rgba(171, 183, 183, 1)",
+                            padding: "10px 0 10px 0",
+                          }}
                         >
-                          Siswa ({classroom.siswa.totalCount})
-                        </Typography>
-                      </div>
-                      {classroom.siswa.nodes.map((nod, i) => {
-                        // console.log(nod, ">>> nod");
-                        return (
-                          <div
-                            style={{
-                              display: "flex",
-                              marginTop: 10,
-                              color: "#424242",
-                            }}
+                          <Typography
+                            variant="body1"
+                            style={{ fontWeight: "bold" }}
                           >
-                            <AccountCircle />
-                            <Typography style={{ marginLeft: 5 }}>
-                              {nod.displayField}
-                            </Typography>
-                          </div>
-                        );
-                      })}
-                    </Paper>
-                  </Grid>
+                            Siswa ({classroom.siswa.totalCount})
+                          </Typography>
+                        </div>
+                        {classroom.siswa.nodes.map((nod, i) => {
+                          // console.log(nod, ">>> nod");
+                          return (
+                            <div
+                              style={{
+                                display: "flex",
+                                marginTop: 10,
+                                color: "#424242",
+                              }}
+                            >
+                              <AccountCircle />
+                              <Typography style={{ marginLeft: 5 }}>
+                                {nod.displayField}
+                              </Typography>
+                            </div>
+                          );
+                        })}
+                      </Paper>
+                    </Grid>
+                  </Container>
                 )}
               </div>
             </Container>

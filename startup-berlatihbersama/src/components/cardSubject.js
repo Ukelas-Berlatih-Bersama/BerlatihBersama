@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardSubject({ node }) {
-  console.log(node, ">>> room");
+  // console.log(node, ">>> room");
   const classes = useStyles();
   const [buka, setBuka] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -99,7 +99,9 @@ export default function CardSubject({ node }) {
           >
             <CardActionArea>
               <CardContent>
-                <Typography variant="h6">{node.displayField}</Typography>
+                <Typography color="primary" variant="h6">
+                  {node.displayField}
+                </Typography>
               </CardContent>
             </CardActionArea>
           </Link>

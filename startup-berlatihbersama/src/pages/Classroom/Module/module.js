@@ -8,16 +8,25 @@ import {
   Grid,
   Container,
   ButtonGroup,
+  Input,
   Tabs,
   Tab,
+  InputAdornment,
+  IconButton,
   Paper,
-  Input,
 } from "@material-ui/core";
-import { useParams } from "react-router-dom";
-import { ArrowBack, Settings, AccountCircle } from "@material-ui/icons";
+import { useParams, Link } from "react-router-dom";
+import {
+  ArrowBack,
+  Settings,
+  FiberManualRecord,
+  Search,
+  ArrowRight,
+} from "@material-ui/icons";
 import qoreContext, { client } from "../../../qoreContext";
 import Navbar from "../../../components/Navbar/Navbar";
 import CardMateri from "../../../components/cardMateri";
+import { id } from "date-fns/locale";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     // position: "absolute",
     width: 500,
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
+    border: "2px solid blue",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -45,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
     margin: "25px 0 10px 0",
     justifyContent: "space-between",
   },
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
 export default function Module() {
@@ -57,11 +71,13 @@ export default function Module() {
   const [image, setImage] = useState("");
   const [buka, setBuka] = React.useState(false);
   const [edit, setEdit] = useState("");
+  const [toogle, setToogle] = React.useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { data: subject, status, error } = qoreContext
     .view("allSubject")
     .useGetRow(subjectId);
-  console.log(subject, ">>> subj");
+  // console.log(subject, ">>> subj");
   //   console.log(status, "status>>>");
 
   const { insertRow } = qoreContext.view("allModule").useInsertRow();
@@ -78,7 +94,7 @@ export default function Module() {
     const file = event.currentTarget.files?.item(0);
     if (!file) return;
     const url = await client.view("allModule").upload(file);
-    setImage({ image: url });
+    setImage(url);
   };
 
   async function addModule(e) {
@@ -99,7 +115,8 @@ export default function Module() {
     e.preventDefault();
     await addRelation({
       module: [idMod],
-    });
+    }).then(handleClose);
+    window.location.reload();
   }
 
   async function handleEditModule(e) {
@@ -130,11 +147,15 @@ export default function Module() {
     setBuka(false);
   };
 
+  const handleSwitch = (e, newValue) => {
+    setToogle(newValue);
+  };
+
   const body = (
     <form onSubmit={addModule} className={classes.modal}>
       <Typography variant="h6">Tambah Materi</Typography>
       <div style={{ marginTop: 15 }}>
-        <Typography style={{ marginBottom: -5 }}>Judul</Typography>
+        <Typography style={{ marginBottom: -10 }}>Judul</Typography>
         <TextField
           variant="outlined"
           margin="normal"
@@ -145,12 +166,11 @@ export default function Module() {
           autoComplete="judul"
           fullWidth
           value={materi}
-          autoFocus
           onChange={(e) => setMateri(e.target.value)}
         ></TextField>
       </div>
       <div style={{ margin: "15px 0 15px 0" }}>
-        <div style={{ display: "flex", marginBottom: -5 }}>
+        <div style={{ display: "flex", marginBottom: -10 }}>
           <Typography style={{ marginRight: 5 }}>Deskripsi</Typography>
           <Typography style={{ color: "GrayText" }}>(Optional)</Typography>
         </div>
@@ -165,8 +185,11 @@ export default function Module() {
           onChange={(e) => setDesc(e.target.value)}
         ></TextField>
       </div>
-      <div>
-        <Typography>URL Video/Youtube</Typography>
+      <div style={{ marginBottom: 5 }}>
+        <div style={{ display: "flex", marginBottom: -10 }}>
+          <Typography style={{ marginRight: 5 }}>URL Video/Youtube</Typography>
+          <Typography style={{ color: "GrayText" }}>(Optional)</Typography>
+        </div>
         <TextField
           variant="outlined"
           margin="normal"
@@ -177,15 +200,26 @@ export default function Module() {
           onChange={(e) => setVideo(e.target.value)}
         ></TextField>
       </div>
-      <Input type="file" value={image} onChange={handleUpload}></Input>
-      <div style={{ display: "table-row" }}>
-        <Button color="primary" type="submit">
+      <div style={{ display: "flex", marginBottom: 1 }}>
+        <Typography style={{ marginRight: 5 }}>Upload Foto</Typography>
+        <Typography style={{ color: "GrayText" }}>(Optional)</Typography>
+      </div>
+      <div style={{ display: "flex", marginBottom: 10 }}>
+        <Input type="file" onChange={handleUpload}></Input>
+      </div>
+      <ButtonGroup style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button variant="text" size="small" color="primary" type="submit">
           Tambah
         </Button>
-        <Button color="secondary" onClick={handleClose}>
+        <Button
+          variant="text"
+          size="small"
+          color="secondary"
+          onClick={handleClose}
+        >
           Tutup
         </Button>
-      </div>
+      </ButtonGroup>
     </form>
   );
 
@@ -270,51 +304,76 @@ export default function Module() {
                   );
                 })}
               </div>
-              <div className={classes.add}>
-                <Typography variant="h6">
-                  Semua Materi ({subject.module.totalCount})
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleOpen}
+              <Grid className={classes.root}>
+                <Tabs
+                  value={toogle}
+                  onChange={handleSwitch}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
                 >
-                  Tambah Materi
-                </Button>
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {body}
-                </Modal>
-              </div>
-              {/* <div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleOpen}
-                >
-                  Tambah Materi Baru
-                </Button>
-                <Modal open={open} onClose={handleClose}>
-                  {body}
-                </Modal>
-              </div> */}
-              <div className={classes.mod}>
-                {status == "success" &&
-                  subject.module.nodes.map((node, i) => {
-                    // const sub = node.displayField;
-                    return (
-                      <Grid item xs={3} key={i}>
-                        <CardMateri node={node} key={i} />
-                      </Grid>
-                    );
-                  })}
+                  <Tab label="Materi" style={{ width: 400 }} />
+                </Tabs>
+              </Grid>
+              <div>
+                <div className={classes.add}>
+                  <Typography variant="h6">
+                    Semua Materi ({subject.module.totalCount})
+                  </Typography>
+                  <TextField
+                    label="Cari materi"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search />
+                        </InputAdornment>
+                      ),
+                    }}
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleOpen}
+                    style={{ width: 200 }}
+                  >
+                    Tambah Materi
+                  </Button>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {body}
+                  </Modal>
+                </div>
+                <div className={classes.mod}>
+                  <Grid container>
+                    {subject.module.nodes
+                      .filter((node) =>
+                        node.displayField
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      )
+                      .map((node, idx) => {
+                        // const sub = node.displayField;
+                        return (
+                          <Grid container direction="column">
+                            <CardMateri node={node} key={idx} />
+                          </Grid>
+                        );
+                      })}
+                  </Grid>
+                </div>
+                <div></div>
               </div>
             </Container>
           </main>

@@ -15,6 +15,8 @@ import ProfilePage from "./ProfileUser/profile";
 import AddNewClass from "./Dashboard/addNewClass";
 import Classroom from "./Classroom/insideClassroom";
 import Module from "./Classroom/Module/module";
+import Assignment from "./Classroom/Assignment/assignment";
+import Score from "./Score/score";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -70,6 +72,12 @@ function DefaultContainer() {
       </PrivateRoute>
       <PrivateRoute path="/subject/:subjectId">
         <Module />
+      </PrivateRoute>
+      <PrivateRoute path="/assignment/:assignmentId">
+        <Assignment />
+      </PrivateRoute>
+      <PrivateRoute path="/score">
+        <Score />
       </PrivateRoute>
     </div>
   );
