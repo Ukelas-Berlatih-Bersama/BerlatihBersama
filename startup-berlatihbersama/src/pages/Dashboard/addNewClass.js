@@ -17,13 +17,11 @@ const useStyle = makeStyles((theme) => ({
 export default function NewClass() {
   const classes = useStyle();
   const [room_name, setRoom_name] = useState("");
-  const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     setRoom_name("");
-    setSubject("");
     setDescription("");
     setSelectedDate(new Date());
   }, []);
