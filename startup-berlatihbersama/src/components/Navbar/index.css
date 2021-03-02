@@ -2,7 +2,7 @@
   color: #2950d8;
 }
 
-/* .menu-item.active::after {
+.menu-item.active::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -12,4 +12,4 @@
   background: #2950d8;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-} */
+}

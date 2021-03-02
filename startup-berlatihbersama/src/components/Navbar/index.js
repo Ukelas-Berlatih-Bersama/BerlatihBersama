@@ -1,14 +1,13 @@
 import {
   Container,
   Box,
-  Badge,
   AppBar,
   Toolbar,
   Typography,
-  IconButton,
 } from "@material-ui/core";
 
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+import { Link } from "react-router-dom";
 
 import Logo from "../../image/brand-logo.svg";
 
@@ -27,8 +26,10 @@ const Navbar = function (props) {
     <AppBar position="static" style={navbarStyle}>
       <Container maxWidth="lg">
         <Box display="flex" justifyContent="space-between">
-          <Toolbar style={{padding: 0}}>
-            <img src={Logo} />
+          <Toolbar style={{ padding: 0 }}>
+            <Link to={"/"}>
+              <img src={Logo} alt="logo"/>
+            </Link>
           </Toolbar>
           <Box display="flex" justifyContent="space-between">
             <Toolbar className="menu-item active">
@@ -36,7 +37,7 @@ const Navbar = function (props) {
               <Typography>Kelas</Typography>
             </Toolbar>
           </Box>
-          <Toolbar style={{padding: 0}}>
+          <Toolbar style={{ padding: 0 }}>
             <NotificationMenu />
             <ProfileMenu />
           </Toolbar>

@@ -10,6 +10,7 @@ import {
   Grow,
   ClickAwayListener,
 } from "@material-ui/core";
+import Skeleton from '@material-ui/lab/Skeleton';
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/actions/actionUser";
 import { useHistory, Link } from "react-router-dom";
@@ -22,16 +23,20 @@ import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 const ProfileMenu = function (props) {
   const dispatch = useDispatch();
   const history = useHistory();
-  //   const { user } = qoreContext.useCurrentUser();
-  //   console.debug(user);
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+
+  const { user, status } = qoreContext.useCurrentUser();
 
   const handleLogout = () => {
     dispatch(logout());
     history.push("/");
   };
+
+  const handleToProfile = () => {
+    history.push("/profile");
+  }
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -71,14 +76,14 @@ const ProfileMenu = function (props) {
           noWrap
           style={{ fontWeight: 500 }}
         >
-          John Doe
+          {status == "success" ? user.data.nama : <Skeleton variant="text" width={120}/>}
         </Typography>
         <Typography
           variant="caption"
           display="block"
           style={{ color: "#6B7380" }}
         >
-          john.doe@gmail.com
+          {status == "success" ? user.email : <Skeleton variant="text" width={120}/>}
         </Typography>
       </div>
       <IconButton
@@ -120,7 +125,7 @@ const ProfileMenu = function (props) {
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={handleClose} style={{ padding: 16 }}>
+                  <MenuItem onClick={handleToProfile} style={{ padding: 16 }}>
                     <PersonOutlineOutlinedIcon style={{marginRight: 12}} /> Profile
                   </MenuItem>
                   <hr style={{borderTop: "1px solid #F3F4F6", borderBottom: 0, margin: "0 16px"}} />

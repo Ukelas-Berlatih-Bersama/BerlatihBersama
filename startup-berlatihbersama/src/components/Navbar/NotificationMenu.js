@@ -38,11 +38,13 @@ const NotificationMenu = function (props) {
   // TODO: get notifications data from backend
   const [notifications, SetNotifications] = React.useState([
     {
+      id: 1,
       title: "Permintaan Terkirim",
       message: "Permintaan gabung kelas #CCC245 sedang menunggu persetujuan",
       createdAt: "Hari ini",
     },
     {
+      id: 2,
       title: "Permintaan Terkirim",
       message: "Permintaan gabung kelas #CCC245 sedang menunggu persetujuan",
       createdAt: "Hari ini",
@@ -69,7 +71,7 @@ const NotificationMenu = function (props) {
     <MenuList className={classes.notificationBody}>
       {notifications.map((notification) => {
         return (
-          <MenuItem>
+          <MenuItem key={notification.id}>
             <Avatar style={{ marginRight: 12 }} background="primary">
               <NotificationsNoneOutlinedIcon />
             </Avatar>

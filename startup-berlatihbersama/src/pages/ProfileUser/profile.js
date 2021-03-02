@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import qoreContext from "../../qoreContext";
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar";
 import { SettingsRounded, ArrowBack } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 
