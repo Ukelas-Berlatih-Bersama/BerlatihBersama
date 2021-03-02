@@ -20,7 +20,7 @@ import {
 } from "@material-ui/core";
 import { ArrowBack, Settings, Search } from "@material-ui/icons";
 import Pagination from "@material-ui/lab/Pagination";
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({

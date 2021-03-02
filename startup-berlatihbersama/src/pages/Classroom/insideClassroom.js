@@ -16,7 +16,7 @@ import {
 import qoreContext from "../../qoreContext";
 import { useParams, useHistory } from "react-router-dom";
 import CardSubject from "../../components/cardSubject";
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar";
 import Moment from "react-moment";
 import { ArrowBack, Settings, AccountCircle } from "@material-ui/icons";
 
