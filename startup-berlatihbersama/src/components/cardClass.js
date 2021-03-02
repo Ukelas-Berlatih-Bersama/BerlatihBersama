@@ -4,13 +4,11 @@ import {
   Card,
   CardActionArea,
   Typography,
-  CardMedia,
   CardContent,
   Box,
   CardActions,
 } from "@material-ui/core";
-import qoreContext from "../qoreContext";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
@@ -32,14 +30,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardClass({ room }) {
-  // console.log(room, ">>> room");
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleOpenClassrom = () => {
+    history.push(`/classroom/${room.id}`);
+  }
 
   return (
-    // TODO: handle onclick room (enter the classroom when it clicked)
     <Card className={classes.root}>
       <CardActionArea className={classes.content}>
-        <CardContent>
+        <CardContent onClick={handleOpenClassrom}>
           {/* TODO: Add ction menu for edit and delete room */}
           <Typography
             gutterBottom
