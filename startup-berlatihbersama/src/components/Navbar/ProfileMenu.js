@@ -13,7 +13,7 @@ import {
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/actions/actionUser";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
 import qoreContext from "../../qoreContext";
 
@@ -71,19 +71,19 @@ const ProfileMenu = function (props) {
       <Avatar style={{ borderRadius: "4px", margin: "auto 1em" }} src="https://randomuser.me/api/portraits/men/20.jpg">JD</Avatar>
       <div style={{ marginRight: "1em" }}>
         <Typography
-          variant="body"
+          variant="body1"
           display="block"
           noWrap
           style={{ fontWeight: 500 }}
         >
-          {status == "success" ? user.data.nama : <Skeleton variant="text" width={120}/>}
+          {status === "success" ? user.data.nama : <Skeleton variant="text" width={120}/>}
         </Typography>
         <Typography
           variant="caption"
           display="block"
           style={{ color: "#6B7380" }}
         >
-          {status == "success" ? user.email : <Skeleton variant="text" width={120}/>}
+          {status === "success" ? user.email : <Skeleton variant="text" width={120}/>}
         </Typography>
       </div>
       <IconButton

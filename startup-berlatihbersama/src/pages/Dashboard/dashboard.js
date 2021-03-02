@@ -36,7 +36,7 @@ function Dashboard() {
       <Typography variant="h4" style={{ marginBottom: 16 }}>
         Belum ada kelas satupun
       </Typography>
-      <Typography variant="body">
+      <Typography variant="body1">
         Mulai buat kelas dengan tekan tombol ‘Tambah Kelas’ atau ‘Gabung Kelas’
         untuk mulai kelola kelas Anda
       </Typography>
