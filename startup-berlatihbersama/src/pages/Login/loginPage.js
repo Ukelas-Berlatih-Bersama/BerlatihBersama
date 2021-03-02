@@ -82,22 +82,18 @@ export default function Login() {
   return (
     <>
       {isLogin ? <Redirect to="/" /> : null}
-      <Container style={{ width: '100%' }}>
-        <Box display="flex" p={1} bgcolor="background.paper">
-          <Box p={1} width="100%" >
-          {/* <Button variant="outlined" >
-          </Button> */}
-            {svgIcon}
-          </Box>
-          <Box p={1} flexShrink={0}>
-            <Link to="/register" style={{textDecoration: 'none'}}>
-              <Button variant="outlined" color="primary" style={{textTransform: 'none'}}>
-                Buat Akun Baru
-              </Button>
-            </Link>
-          </Box>
+      <Box display="flex" p={1} bgcolor="background.paper" style={{margin: '0 3em'}}>
+        <Box p={1} width="100%" >
+          {svgIcon}
         </Box>
-      </Container>
+        <Box p={1} flexShrink={0}>
+          <Link to="/register" style={{textDecoration: 'none'}}>
+            <Button variant="outlined" color="primary" style={{textTransform: 'none'}}>
+              Buat Akun Baru
+            </Button>
+          </Link>
+        </Box>
+      </Box>
       <Box display="flex" justifyContent="center" style={{marginTop: '5rem'}}>
         <Typography  component="h1" variant="h4">
           Selamat datang di Ukelas

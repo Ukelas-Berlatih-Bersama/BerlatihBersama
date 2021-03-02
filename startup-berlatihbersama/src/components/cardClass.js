@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardClass({ room }) {
+  // console.log(room, ">>> room");
   const classes = useStyles();
 
   return (
