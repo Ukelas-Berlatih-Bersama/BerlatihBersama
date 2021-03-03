@@ -37,7 +37,14 @@ export function logout() {
   };
 }
 
-export function register_siswa({ email, password }) {
+export function register_siswa({
+  email,
+  password,
+  nama,
+  alamat,
+  time,
+  gender,
+}) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios
@@ -46,6 +53,10 @@ export function register_siswa({ email, password }) {
           {
             email,
             password,
+            nama,
+            alamat,
+            time,
+            gender,
           },
           {
             headers: {
@@ -68,7 +79,7 @@ export function register_siswa({ email, password }) {
   };
 }
 
-export function register_guru({ email, password }) {
+export function register_guru({ email, password, nama, alamat, time, gender }) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios
@@ -77,6 +88,10 @@ export function register_guru({ email, password }) {
           {
             email,
             password,
+            nama,
+            alamat,
+            time,
+            gender,
           },
           {
             headers: {

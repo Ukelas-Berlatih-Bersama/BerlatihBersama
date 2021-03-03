@@ -3,13 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardActionArea,
-  CardActions,
   CardMedia,
-  Button,
   Grid,
   Container,
   Box,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
 import { Link } from "react-router-dom";
@@ -23,12 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     width: 400,
-    padding: "2em"
+    padding: "2em",
   },
   media: {
-    height: '10em',
-    width: '10em',
-
+    height: "10em",
+    width: "10em",
   },
 }));
 const svgIcon = (
@@ -41,24 +38,29 @@ export default function MediaCard() {
 
   return (
     <div className={classes.background}>
-      <Box display="flex" p={1} bgcolor="background.paper" style={{margin: '0 3em'}}>
-        <Box p={1} width="100%" >
+      <Box
+        display="flex"
+        p={1}
+        bgcolor="background.paper"
+        style={{ margin: "0 3em" }}
+      >
+        <Box p={1} width="100%">
           {svgIcon}
         </Box>
         <Box p={1} flexShrink={0}>
-          Sudah punya akun? 
-          <Link to="/login" style={{textDecoration: 'none'}}>
+          Sudah punya akun?
+          <Link to="/login" style={{ textDecoration: "none" }}>
             Masuk Sekarang
           </Link>
         </Box>
       </Box>
-      <Box display="flex" justifyContent="center" style={{marginTop: '5rem'}}>
-        <Typography  component="h1" variant="h4">
+      <Box display="flex" justifyContent="center" style={{ marginTop: "5rem" }}>
+        <Typography component="h1" variant="h4">
           Pendaftaran Akun.
         </Typography>
       </Box>
       <Box display="flex" justifyContent="center">
-        <Typography  component="h1" variant="h4">
+        <Typography component="h1" variant="h4">
           Silahkan pilih jenis akun Anda
         </Typography>
       </Box>
@@ -84,11 +86,18 @@ export default function MediaCard() {
                   </Box>
                 </Link>
               </CardActionArea>
-              <Typography align="center" style={{fontSize: '1.5rem', fontWeight: 'bold'}}>
+              <Typography
+                align="center"
+                style={{ fontSize: "1.5rem", fontWeight: "bold" }}
+              >
                 Akun Guru
               </Typography>
-              <Typography align="center" style={{fontSize: '1rem', color: '#6B7380'}}>
-                Digunakan oleh guru atau asisten guru untuk mengelola kelas, mengelola materi dan tugas
+              <Typography
+                align="center"
+                style={{ fontSize: "1rem", color: "#6B7380" }}
+              >
+                Digunakan oleh guru atau asisten guru untuk mengelola kelas,
+                mengelola materi dan tugas
               </Typography>
             </Card>
             <Card className={classes.root}>
@@ -102,11 +111,18 @@ export default function MediaCard() {
                   </Box>
                 </Link>
               </CardActionArea>
-              <Typography align="center" style={{fontSize: '1.5rem', fontWeight: 'bold'}}>
+              <Typography
+                align="center"
+                style={{ fontSize: "1.5rem", fontWeight: "bold" }}
+              >
                 Akun Siswa
               </Typography>
-              <Typography align="center" style={{fontSize: '1rem', color: '#6B7380'}}>
-                Digunakan oleh siswa untuk melihat materi dan tugas yang tersedia
+              <Typography
+                align="center"
+                style={{ fontSize: "1rem", color: "#6B7380" }}
+              >
+                Digunakan oleh siswa untuk melihat materi dan tugas yang
+                tersedia
               </Typography>
             </Card>
           </Grid>
@@ -117,7 +133,9 @@ export default function MediaCard() {
               </Link>
             </Grid>
           </Grid> */}
-          <Typography style={{fontSize: '.7rem', color: '#6B7380', marginTop: '15em'}}>
+          <Typography
+            style={{ fontSize: ".7rem", color: "#6B7380", marginTop: "15em" }}
+          >
             2020 © Berlatihbersama. All rights reserved.
           </Typography>
         </div>

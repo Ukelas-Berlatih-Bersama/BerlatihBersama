@@ -18,7 +18,6 @@ import qoreContext from "../qoreContext";
 import { ArrowRight, MoreVert, Image } from "@material-ui/icons";
 import LinkIcon from "@material-ui/icons/Link";
 import Moment from "react-moment";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,

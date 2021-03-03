@@ -10,12 +10,9 @@ import {
   makeStyles,
   Box,
   InputAdornment,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
-import {
-  Visibility,
-  VisibilityOff
-} from '@material-ui/icons';
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Icon from "@material-ui/core/Icon";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,23 +43,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
   const [values, setValues] = useState({
-    password: '',
-    showPassword: false
+    password: "",
+    showPassword: false,
   });
   const dispatch = useDispatch();
 
-  const handleClickShowPassword = () => setValues({
-    ...values,
-    showPassword: !values.showPassword
-  });
-  const handleMouseDownPassword = (event) => {event.preventDefault();};
-
-  // const member = qoreContext.view("allMember").useListRow();
-  // const firstMember = member.data.email;
-
-  // console.log(member, ">>> member");
+  const handleClickShowPassword = () =>
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const isLogin = useSelector((state) => state.reducerLogin.isLogin);
 
@@ -70,7 +64,7 @@ export default function Login() {
     event.preventDefault();
     let payload = {
       email,
-      values,
+      password: values,
     };
     dispatch(login(payload));
   }
@@ -82,25 +76,34 @@ export default function Login() {
   return (
     <>
       {isLogin ? <Redirect to="/" /> : null}
-      <Box display="flex" p={1} bgcolor="background.paper" style={{margin: '0 3em'}}>
-        <Box p={1} width="100%" >
+      <Box
+        display="flex"
+        p={1}
+        bgcolor="background.paper"
+        style={{ margin: "0 3em" }}
+      >
+        <Box p={1} width="100%">
           {svgIcon}
         </Box>
         <Box p={1} flexShrink={0}>
-          <Link to="/register" style={{textDecoration: 'none'}}>
-            <Button variant="outlined" color="primary" style={{textTransform: 'none'}}>
+          <Link to="/register" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              style={{ textTransform: "none" }}
+            >
               Buat Akun Baru
             </Button>
           </Link>
         </Box>
       </Box>
-      <Box display="flex" justifyContent="center" style={{marginTop: '5rem'}}>
-        <Typography  component="h1" variant="h4">
+      <Box display="flex" justifyContent="center" style={{ marginTop: "5rem" }}>
+        <Typography component="h1" variant="h4">
           Selamat datang di Ukelas
         </Typography>
       </Box>
       <Box display="flex" justifyContent="center">
-        <Typography  component="h1" variant="h4">
+        <Typography component="h1" variant="h4">
           Silahkan masuk dengan akun Anda
         </Typography>
       </Box>
@@ -133,13 +136,14 @@ export default function Login() {
               fullWidth
               name="password"
               label="Password"
-              type={values.showPassword ? 'text' : 'password'}
+              type={values.showPassword ? "text" : "password"}
               id="password"
               autoComplete="current-password"
               onChange={(e) => setValues(e.target.value)}
               value={values.password}
               placeholder="Masukkan password Anda disini"
-              InputProps={{ // <-- This is where the toggle button is added.
+              InputProps={{
+                // <-- This is where the toggle button is added.
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
@@ -150,7 +154,7 @@ export default function Login() {
                       {values.showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
             />
             {/* <FormControlLabel
@@ -163,12 +167,14 @@ export default function Login() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              style={{textTransform: 'none'}}
+              style={{ textTransform: "none" }}
             >
               Masuk
             </Button>
           </form>
-          <Typography style={{fontSize: '.7rem', color: '#6B7380', marginTop: '3em'}}>
+          <Typography
+            style={{ fontSize: ".7rem", color: "#6B7380", marginTop: "3em" }}
+          >
             2020 © Berlatihbersama. All rights reserved.
           </Typography>
         </div>
