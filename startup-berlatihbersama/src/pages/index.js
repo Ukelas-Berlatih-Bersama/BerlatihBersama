@@ -22,27 +22,40 @@ import { Redirect } from "react-router-dom";
 
 import qoreContext from "../qoreContext";
 
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: ["Rubik", "sans-serif"].join(","),
+  },
+  button: {
+    fontFamily: ["Rubik", "sans-serif"].join(","),
+  }
+});
+
 export default function index() {
   return (
-    <Provider store={store}>
-      <qoreContext.context.Provider
-        value={{
-          client: qoreContext.client,
-        }}
-      >
-        <Router>
-          <div>
-            <Switch>
-              <Route exact path="/login" component={BeforeEnterContainer} />
-              <Route path="/register" component={Register} />
-              <Route path="/registerTeacher" component={RegisterTeacher} />
-              <Route path="/registerStudent" component={RegisterStudent} />
-              <Route component={DefaultContainer} />
-            </Switch>
-          </div>
-        </Router>
-      </qoreContext.context.Provider>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <qoreContext.context.Provider
+          value={{
+            client: qoreContext.client,
+          }}
+        >
+          <Router>
+            <div>
+              <Switch>
+                <Route exact path="/login" component={BeforeEnterContainer} />
+                <Route path="/register" component={Register} />
+                <Route path="/registerTeacher" component={RegisterTeacher} />
+                <Route path="/registerStudent" component={RegisterStudent} />
+                <Route component={DefaultContainer} />
+              </Switch>
+            </div>
+          </Router>
+        </qoreContext.context.Provider>
+      </Provider>
+    </ThemeProvider>
   );
 }
 

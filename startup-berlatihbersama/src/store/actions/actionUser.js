@@ -8,7 +8,7 @@ export const login = ({ email, password }) => {
           "https://prod-qore-app.qorebase.io/project-authenticate/zZiznDFqublSQFo",
           {
             identifier: email,
-            password,
+            password: password,
           },
           {
             headers: {

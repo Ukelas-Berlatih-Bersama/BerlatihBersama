@@ -79,7 +79,7 @@ const Navbar = function ({ page }) {
                 ></Avatar>
                 <div style={{ marginRight: "1em" }}>
                   <Typography
-                    variant="body"
+                    variant="body1"
                     display="block"
                     noWrap
                     style={{ fontWeight: 500 }}

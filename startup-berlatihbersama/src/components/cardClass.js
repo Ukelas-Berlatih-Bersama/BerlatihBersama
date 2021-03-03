@@ -4,45 +4,70 @@ import {
   Card,
   CardActionArea,
   Typography,
-  CardMedia,
   CardContent,
-  Button,
+  Box,
   CardActions,
 } from "@material-ui/core";
-import qoreContext from "../qoreContext";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
-    marginTop: "25%",
-    alignContent: "center",
+    boxShadow: "0px 4px 10px rgba(107, 115, 128, 0.05)",
   },
-  media: {
-    height: 140,
+  content: {
+    backgroundColor: "#4267E9",
+    color: "white",
+  },
+  action: {
+    color: "#111828",
+    display: "flex",
+    justifyContent: "space-between",
+    padding: 16,
   },
 }));
 
 export default function CardClass({ room }) {
-  // console.log(room, ">>> room");
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleOpenClassrom = () => {
+    history.push(`/classroom/${room.id}`);
+  }
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia className={classes.media} image={room.name} />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+      <CardActionArea className={classes.content}>
+        <CardContent onClick={handleOpenClassrom}>
+          {/* TODO: Add ction menu for edit and delete room */}
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            style={{ fontWeight: "bold" }}
+          >
             {room.name}
+          </Typography>
+          <Typography style={{ fontSize: 14 }}>
+            Tahun Ajaran: {room.schoolYear}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Link to={`/classroom/${room.id}`}>
-          <Button size="medium" color="primary">
-            Masuk
-          </Button>
-        </Link>
+      <CardActions className={classes.action}>
+        <Box display="flex" alignItems="center">
+          <DescriptionOutlinedIcon style={{ marginRight: 4 }} />
+          <Typography style={{ fontSize: 14 }}>
+            {room.subject.totalCount} Mata Pelajaran
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center">
+          <PersonOutlineIcon style={{ marginRight: 4 }} />
+          <Typography style={{ fontSize: 14 }}>
+            {room.siswa.totalCount} Siswa
+          </Typography>
+        </Box>
       </CardActions>
     </Card>
   );

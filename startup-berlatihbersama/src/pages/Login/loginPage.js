@@ -60,10 +60,14 @@ export default function Login() {
 
   const isLogin = useSelector((state) => state.reducerLogin.isLogin);
 
-  function handleLogin(event) {
+  const handleLogin = (event) => {
     event.preventDefault();
     let payload = {
+<<<<<<< HEAD
       email,
+=======
+      email: email,
+>>>>>>> homepage
       password: values,
     };
     dispatch(login(payload));
