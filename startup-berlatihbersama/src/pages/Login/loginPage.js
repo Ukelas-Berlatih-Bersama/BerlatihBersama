@@ -63,11 +63,7 @@ export default function Login() {
   const handleLogin = (event) => {
     event.preventDefault();
     let payload = {
-<<<<<<< HEAD
-      email,
-=======
       email: email,
->>>>>>> homepage
       password: values,
     };
     dispatch(login(payload));
