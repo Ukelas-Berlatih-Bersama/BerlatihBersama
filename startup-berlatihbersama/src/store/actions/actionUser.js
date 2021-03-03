@@ -25,6 +25,12 @@ export const login = ({ email, password }) => {
           resolve();
         })
         .catch((error) => {
+          if (error.response.status === 401) {
+            dispatch({
+              type: "AUTH_ERROR",
+              payload: `Password yang Anda masukkan tidak cocok dengan email ${email}. Cek kembali password yang Anda masukkan`,
+            });
+          }
           reject(error);
         });
     });

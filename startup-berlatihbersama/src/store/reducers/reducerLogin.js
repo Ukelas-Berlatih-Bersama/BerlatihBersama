@@ -1,6 +1,7 @@
 let initialState = {
   isLogin: false,
   user: "",
+  error: false,
   message: "",
 };
 
@@ -24,6 +25,13 @@ function reducerLogin(state = initialState, action) {
       return {
         ...state,
         message: action.value,
+      };
+
+    case "AUTH_ERROR":
+      return {
+        ...state,
+        error: true,
+        message: action.payload,
       };
 
     default:
