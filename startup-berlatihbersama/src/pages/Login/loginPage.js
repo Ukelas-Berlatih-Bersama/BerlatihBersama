@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import {
+  Avatar,
   Button,
+  CssBaseline,
   TextField,
+  Grid,
   Container,
   Typography,
   makeStyles,
@@ -14,6 +17,8 @@ import Icon from "@material-ui/core/Icon";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/actionUser";
+import qoreContext from "../../qoreContext";
+import { QoreProject } from "@feedloop/qore-client";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,7 +63,7 @@ export default function Login() {
   const handleLogin = (event) => {
     event.preventDefault();
     let payload = {
-      email,
+      email: email,
       password: values,
     };
     dispatch(login(payload));
