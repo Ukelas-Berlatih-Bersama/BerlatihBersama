@@ -16,7 +16,6 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import qoreContext from "../qoreContext";
 import { ArrowRight, MoreVert, Image } from "@material-ui/icons";
-import LinkIcon from "@material-ui/icons/Link";
 import Moment from "react-moment";
 import {
   MuiPickersUtilsProvider,
@@ -57,8 +56,6 @@ export default function CardAssignment({ node }) {
   const [open, setOpen] = React.useState(false);
   const [buka, setBuka] = React.useState(false);
   const [show, setShow] = React.useState(false);
-  const [copied, setCopied] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const [edit, setEdit] = useState("");
   const [desc, setDesc] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -115,14 +112,6 @@ export default function CardAssignment({ node }) {
 
   const handleTutup = () => {
     setBuka(false);
-  };
-
-  const handleShow = () => {
-    setShow(true);
-  };
-
-  const handleUnshow = () => {
-    setShow(false);
   };
 
   return (
