@@ -11,14 +11,10 @@ import {
   ButtonGroup,
   Grid,
   Container,
-  Card,
-  CardContent,
-  CardMedia,
 } from "@material-ui/core";
 import qoreContext from "../qoreContext";
 import { Link } from "react-router-dom";
 import { ArrowRight, MoreVert, Image, Description } from "@material-ui/icons";
-import LinkIcon from "@material-ui/icons/Link";
 
 function getModalStyle() {
   return {
@@ -45,10 +41,6 @@ export default function CardMateri({ node }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [buka, setBuka] = React.useState(false);
-  const [show, setShow] = React.useState(false);
-  const [img, setImg] = React.useState(false);
-  const [copied, setCopied] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const [edit, setEdit] = useState("");
   const [desc, setDesc] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -72,7 +64,7 @@ export default function CardMateri({ node }) {
     await updateRow(node.id, { title: edit, description: desc }).then(
       handleClose
     );
-    // window.location.reload();
+    window.location.reload();
   }
 
   const handleOpen = (e) => {
@@ -82,6 +74,7 @@ export default function CardMateri({ node }) {
 
   const handleClose = () => {
     setOpen(false);
+    setBuka(false);
   };
 
   const handleMore = (e) => {
@@ -94,24 +87,6 @@ export default function CardMateri({ node }) {
 
   const handleBuka = () => {
     setBuka(true);
-  };
-
-  const handleTutup = () => {
-    setBuka(false);
-  };
-
-  const handleShow = () => {
-    setShow(true);
-  };
-
-  const handleUnshow = () => {
-    setShow(false);
-  };
-
-  const handleShowImage = (url) => {};
-
-  const handleHide = () => {
-    setImg(false);
   };
 
   return (
@@ -144,7 +119,6 @@ export default function CardMateri({ node }) {
                 }}
               >
                 {
-                  // <IconButton>
                   <ArrowRight
                     fontSize="small"
                     style={{
@@ -256,7 +230,7 @@ export default function CardMateri({ node }) {
               </MenuItem>
               <Modal
                 open={buka}
-                onClose={handleTutup}
+                onClose={handleClose}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -285,7 +259,7 @@ export default function CardMateri({ node }) {
                     <Button
                       variant="text"
                       color="primary"
-                      onClick={handleTutup}
+                      onClick={handleClose}
                     >
                       Batal
                     </Button>

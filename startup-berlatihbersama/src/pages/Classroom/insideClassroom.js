@@ -11,14 +11,13 @@ import {
   Tabs,
   Tab,
   Paper,
-  Box,
 } from "@material-ui/core";
 import qoreContext from "../../qoreContext";
 import { useParams, useHistory } from "react-router-dom";
 import CardSubject from "../../components/cardSubject";
 import Navbar from "../../components/Navbar";
-import Moment from "react-moment";
 import { ArrowBack, Settings, AccountCircle } from "@material-ui/icons";
+// import EmptyClassroom from "../../components/emptyChalkboard";
 
 function getModalStyle() {
   return {
@@ -28,11 +27,11 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: "0 7em 0em 7em",
+    padding: "0 5em 0em 5em",
   },
   modal: {
     position: "absolute",
-    width: 400,
+    width: 500,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid blue",
     boxShadow: theme.shadows[2],
@@ -78,7 +77,7 @@ export default function InsideClassroom() {
   const { data: classroom, status } = qoreContext
     .view("allClassroom")
     .useGetRow(someClassroomId);
-  console.log(JSON.stringify(classroom, null, 2), ">>> user");
+  // console.log(JSON.stringify(classroom, null, 2), ">>> user");
   // console.log(someClassroomId, ">>> id");
 
   const { insertRow } = qoreContext.view("allSubject").useInsertRow();
@@ -144,7 +143,10 @@ export default function InsideClassroom() {
 
   const body = (
     <form onSubmit={addSubject} className={classes.modal} style={modalStyle}>
-      <Typography variant="h6">Buat Mata Pelajaran</Typography>
+      <Typography variant="h6" style={{ marginBottom: 10 }}>
+        Buat Mata Pelajaran
+      </Typography>
+      <Typography variant="content">Nama Mata Pelajaran</Typography>
       <TextField
         variant="outlined"
         margin="normal"
@@ -155,17 +157,18 @@ export default function InsideClassroom() {
         fullWidth
         value={subj}
         onChange={(e) => setSubj(e.target.value)}
-        style={{ margin: "20px 0 20px 0" }}
+        style={{ margin: "8px 0 20px 0" }}
       ></TextField>
       <ButtonGroup style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           variant="text"
-          style={{ color: "GrayText" }}
+          style={{ color: "GrayText", paddingRight: 30 }}
           onClick={handleClose}
+          size="small"
         >
           Batal
         </Button>
-        <Button color="primary" variant="text" type="submit">
+        <Button color="primary" variant="text" size="small" type="submit">
           Buat Mata Pelajaran
         </Button>
       </ButtonGroup>
@@ -247,15 +250,20 @@ export default function InsideClassroom() {
                 <Typography variant="h4">{classroom.name}</Typography>
               </div>
               <div style={{ marginTop: 15 }}>
-                <Typography style={{ color: "#6B7380" }}>
-                  Kode Kelas:{" "}
-                </Typography>
                 <div className={classes.gray}>
                   <Typography style={{ color: "#6B7380" }}>
-                    Tanggal Pembuatan Kelas:
+                    Kode Kelas:
                   </Typography>
                   <Typography style={{ paddingLeft: 5 }}>
-                    <Moment format="D MMM YYYY">{classroom.time}</Moment>
+                    {classroom.code}
+                  </Typography>
+                </div>
+                <div className={classes.gray}>
+                  <Typography style={{ color: "#6B7380" }}>
+                    Tahun Ajaran:
+                  </Typography>
+                  <Typography style={{ paddingLeft: 5 }}>
+                    {classroom.schoolYear}
                   </Typography>
                 </div>
               </div>
@@ -272,39 +280,43 @@ export default function InsideClassroom() {
                 </Tabs>
               </Grid>
 
-              <div className={classes.add}>
-                <Typography variant="h6">
-                  Semua Mata Pelajaran ({classroom.subject.totalCount})
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleOpen}
-                >
-                  Tambah Mata Pelajaran Baru
-                </Button>
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {body}
-                </Modal>
-              </div>
-              <div className={classes.mod}>
+              <div>
                 {toogle == 0 ? (
-                  classroom.subject.nodes.map((node, i) => {
-                    // console.log(node, ">>>> node");
-                    return (
-                      <Grid item xs={3} key={i}>
-                        <CardSubject node={node} key={i} />
-                      </Grid>
-                    );
-                  })
+                  <>
+                    <div className={classes.add}>
+                      <Typography variant="h6">
+                        Semua Mata Pelajaran ({classroom.subject.totalCount})
+                      </Typography>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleOpen}
+                      >
+                        Tambah Mata Pelajaran Baru
+                      </Button>
+                      <Modal
+                        open={open}
+                        onClose={handleClose}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {body}
+                      </Modal>
+                    </div>
+                    <div className={classes.mod}>
+                      {classroom.subject.nodes.map((node, i) => {
+                        // console.log(node, ">>>> node");
+                        return (
+                          <Grid item xs={3} key={i}>
+                            <CardSubject node={node} key={i} />
+                          </Grid>
+                        );
+                      })}
+                    </div>
+                  </>
                 ) : (
                   <Container>
                     <Grid item xs={12}>
