@@ -12,7 +12,6 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import qoreContext from "../../qoreContext";
-import Navbar from "../../components/Navbar";
 import { SettingsRounded, ArrowBack } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 
@@ -85,7 +84,6 @@ export default function Profile() {
     <>
       {status === "success" ? (
         <div>
-          <Navbar />
           <main style={{ flexGrow: 1, padding: 20 }}>
             <Container className={classes.container}>
               <Grid

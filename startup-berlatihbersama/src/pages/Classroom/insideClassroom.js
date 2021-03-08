@@ -179,7 +179,6 @@ export default function InsideClassroom() {
     <>
       {status == "success" ? (
         <div>
-          <Navbar />
           <main style={{ flexGrow: 1, padding: 30 }}>
             <Container className={classes.container}>
               <ButtonGroup

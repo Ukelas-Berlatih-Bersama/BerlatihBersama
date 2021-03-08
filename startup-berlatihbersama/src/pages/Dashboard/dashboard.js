@@ -1,8 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CssBaseline, Container, Grid } from "@material-ui/core";
+import { CssBaseline, Container, Grid, Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
-import Navbar from "../../components/Navbar";
 import Footer from "../../components/footer";
 import Classroom from "../../components/cardClass";
 import qoreContext from "../../qoreContext";
@@ -43,6 +42,7 @@ function Dashboard() {
   //   </Container>
   // );
 
+  // TODO: implement preloading
   const preloadingClassroom = (
     <Container maxWidth="lg">
       <Grid container spacing={3}>
@@ -70,32 +70,25 @@ function Dashboard() {
 
   return (
     <>
-      {status == "success" && classroom.length > 0 ? (
-        <>
-          <CssBaseline />
-          <Navbar />
-          <Container className={classes.container}>
-            <div style={{ marginTop: -30, marginBottom: -40 }}>
-              <Header userId={user.data.id} />
+      <CssBaseline />
+      <Header />
+      {classroom.length > 0 && status == "success"? (
+        <Container maxWidth="lg">
+          <main style={{ flexGrow: 2 }}>
+            <div className={classes.toolbar}>
+              <Grid container spacing={3}>
+                {classroom.map((room, i) => {
+                  return (
+                    <Grid item xs={4} key={i}>
+                      <Classroom room={room} key={i} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
             </div>
-            <Container maxWidth="lg">
-              <main style={{ flexGrow: 2 }}>
-                <div className={classes.toolbar}>
-                  <Grid container spacing={3}>
-                    {classroom.map((room, i) => {
-                      return (
-                        <Grid item xs={4} key={i}>
-                          <Classroom room={room} key={i} />
-                        </Grid>
-                      );
-                    })}
-                  </Grid>
-                </div>
-              </main>
-            </Container>
-          </Container>
-        </>
-      ) : null}
+          </main>
+        </Container>
+      ): preloadingClassroom}
 
       <Footer />
     </>

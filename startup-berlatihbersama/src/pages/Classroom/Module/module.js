@@ -17,7 +17,6 @@ import {
 import { useParams } from "react-router-dom";
 import { ArrowBack, Settings, Search } from "@material-ui/icons";
 import qoreContext, { client } from "../../../qoreContext";
-import Navbar from "../../../components/Navbar";
 import CardMateri from "../../../components/cardMateri";
 
 const useStyles = makeStyles((theme) => ({
@@ -221,7 +220,6 @@ export default function Module() {
     <>
       {status == "success" ? (
         <div>
-          <Navbar />
           <main style={{ flexGrow: 1, padding: 30 }}>
             <Container className={classes.container}>
               <ButtonGroup
