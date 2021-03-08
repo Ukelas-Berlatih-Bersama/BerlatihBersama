@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     // boxShadow: "2px",
     padding: "25px",
   },
+  container: {
+    padding: "0 10em 0em 10em",
+  },
 }));
 
 export default function Profile() {
@@ -79,15 +82,14 @@ export default function Profile() {
 
   return (
     <>
-      {status == "success" ? (
+      {status === "success" ? (
         <div>
           <main style={{ flexGrow: 1, padding: 20 }}>
-            <Container>
-              <Paper
+            <Container className={classes.container}>
+              <Grid
                 elevation={0}
                 style={{
-                  margin: "0 150px 20px 150px",
-                  // padding: "10px",
+                  margin: "0 0 20px 0",
                 }}
               >
                 <Button
@@ -99,15 +101,14 @@ export default function Profile() {
                 >
                   Kembali ke Halaman Utama
                 </Button>
-              </Paper>
+              </Grid>
               <Paper
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  // padding: "20px 20px 20px 20px",
-                  margin: "20px 150px 20px 150px",
-                  padding: "10px",
+                  padding: 10,
                 }}
+                square
               >
                 <div style={{ display: "flex" }}>
                   <Avatar
@@ -139,20 +140,26 @@ export default function Profile() {
                     className={classes.modal}
                     style={modalStyle}
                   >
-                    <Typography variant="h6">Edit Profil</Typography>
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      id="name"
-                      label="Nama Baru"
-                      name="name"
-                      defaultValue={user.data.nama}
-                      fullWidth
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      style={{ margin: "20px 0 20px 0" }}
-                    ></TextField>
+                    <Typography variant="h6" style={{ marginBottom: 20 }}>
+                      Edit Profil
+                    </Typography>
+                    <Typography variant="content">Nama</Typography>
+                    <div>
+                      <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        id="name"
+                        label="Nama Baru"
+                        name="name"
+                        defaultValue={user.data.nama}
+                        fullWidth
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        style={{ margin: "8px 0 20px 0" }}
+                      ></TextField>
+                    </div>
+                    <Typography variant="content">Email</Typography>
                     <TextField
                       variant="outlined"
                       margin="normal"
@@ -164,7 +171,7 @@ export default function Profile() {
                       fullWidth
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      style={{ margin: "20px 0 20px 0" }}
+                      style={{ margin: "8px 0 20px 0" }}
                     ></TextField>
                     <ButtonGroup
                       style={{ display: "flex", justifyContent: "flex-end" }}
@@ -189,9 +196,9 @@ export default function Profile() {
               </Paper>
               <Paper
                 style={{
-                  margin: "20px 150px 20px 150px",
                   padding: "10px",
                 }}
+                square
               >
                 <div
                   style={{
@@ -208,9 +215,7 @@ export default function Profile() {
                     <Typography style={{ color: "GrayText" }}>
                       Email:{" "}
                     </Typography>
-                    <Typography
-                      style={{ marginLeft: "4px", fontWeight: "bold" }}
-                    >
+                    <Typography style={{ marginLeft: "4px" }}>
                       {user.email}
                     </Typography>
                   </div>
@@ -218,9 +223,7 @@ export default function Profile() {
                     <Typography style={{ color: "GrayText" }}>
                       Nama:{" "}
                     </Typography>
-                    <Typography
-                      style={{ marginLeft: "4px", fontWeight: "bold" }}
-                    >
+                    <Typography style={{ marginLeft: "4px" }}>
                       {user.data.nama}
                     </Typography>
                   </div>
@@ -228,9 +231,7 @@ export default function Profile() {
                     <Typography style={{ color: "GrayText" }}>
                       Role:{" "}
                     </Typography>
-                    <Typography
-                      style={{ marginLeft: "4px", fontWeight: "bold" }}
-                    >
+                    <Typography style={{ marginLeft: "4px" }}>
                       {user.data.role.displayField}
                     </Typography>
                   </div>

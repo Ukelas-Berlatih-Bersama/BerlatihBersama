@@ -15,7 +15,6 @@ import Dashboard from "./Dashboard/dashboard";
 import RegisterTeacher from "./Register/registerTeacher";
 import RegisterStudent from "./Register/registerStudent";
 import ProfilePage from "./ProfileUser/profile";
-import AddNewClass from "./Dashboard/addNewClass";
 import Classroom from "./Classroom/insideClassroom";
 import Module from "./Classroom/Module/module";
 import Assignment from "./Classroom/Assignment/assignment";
@@ -77,9 +76,6 @@ function DefaultContainer() {
       </PrivateRoute>
       <PrivateRoute path="/profile">
         <ProfilePage />
-      </PrivateRoute>
-      <PrivateRoute path="/add_class">
-        <AddNewClass />
       </PrivateRoute>
       <PrivateRoute path="/classroom/:someClassroomId">
         <Classroom />

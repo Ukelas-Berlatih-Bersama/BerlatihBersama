@@ -1,11 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  CssBaseline,
-  Container,
-  Typography,
-  Grid,
-} from "@material-ui/core";
+import { CssBaseline, Container, Grid, Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Footer from "../../components/footer";
 import Classroom from "../../components/cardClass";
@@ -20,28 +15,34 @@ const useStyle = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(1),
   },
+  container: {
+    padding: "0 5em 0em 5em",
+  },
 }));
 
 function Dashboard() {
   const classes = useStyle();
 
-  const { data: classroom, status } = qoreContext
-    .view("allClassroom")
-    .useListRow();
+  const { user, status } = qoreContext.useCurrentUser();
+  // console.log(JSON.stringify(user, ["data"], 2), ">>> user");
+  // console.log(status, ">>>> status");
 
-  const emptyClassroom = (
-    <Container maxWidth="lg" style={{ textAlign: "center" }}>
-      <img src={chalkBoardIllustration} style={{ marginBottom: 32 }} />
-      <Typography variant="h4" style={{ marginBottom: 16 }}>
-        Belum ada kelas satupun
-      </Typography>
-      <Typography variant="body1">
-        Mulai buat kelas dengan tekan tombol ‘Tambah Kelas’ atau ‘Gabung Kelas’
-        untuk mulai kelola kelas Anda
-      </Typography>
-    </Container>
-  );
+  const { data: classroom } = qoreContext.view("allClassroom").useListRow();
 
+  // const emptyClassroom = (
+  //   <Container maxWidth="lg" style={{ textAlign: "center" }}>
+  //     <img src={chalkBoardIllustration} style={{ marginBottom: 32 }} />
+  //     <Typography variant="h4" style={{ marginBottom: 16 }}>
+  //       Belum ada kelas satupun
+  //     </Typography>
+  //     <Typography variant="body1">
+  //       Mulai buat kelas dengan tekan tombol ‘Tambah Kelas’ atau ‘Gabung Kelas’
+  //       untuk mulai kelola kelas Anda
+  //     </Typography>
+  //   </Container>
+  // );
+
+  // TODO: implement preloading
   const preloadingClassroom = (
     <Container maxWidth="lg">
       <Grid container spacing={3}>
@@ -71,11 +72,7 @@ function Dashboard() {
     <>
       <CssBaseline />
       <Header />
-      {status == "idle" ? preloadingClassroom : null}
-
-      {status == "success" && classroom.length <= 0 ? (
-        emptyClassroom
-      ) : (
+      {classroom.length > 0 && status == "success"? (
         <Container maxWidth="lg">
           <main style={{ flexGrow: 2 }}>
             <div className={classes.toolbar}>
@@ -91,7 +88,7 @@ function Dashboard() {
             </div>
           </main>
         </Container>
-      )}
+      ): preloadingClassroom}
 
       <Footer />
     </>

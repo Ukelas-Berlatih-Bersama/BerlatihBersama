@@ -25,7 +25,7 @@ import DateFnsUtils from "@date-io/date-fns";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: "0 7em 0em 7em",
+    padding: "0 5em 0em 5em",
   },
   modal: {
     // display: "flex",
@@ -62,7 +62,6 @@ export default function Module() {
   const [open, setOpen] = React.useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [desc, setDesc] = useState("");
-  const [video, setVideo] = useState("");
   const [image, setImage] = useState("");
   const [buka, setBuka] = React.useState(false);
   const [edit, setEdit] = useState("");

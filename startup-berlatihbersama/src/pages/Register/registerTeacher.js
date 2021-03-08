@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
-  Avatar,
   Button,
-  CssBaseline,
   TextField,
   Grid,
   Typography,
@@ -18,13 +16,11 @@ import { Link } from "react-router-dom";
 import { register_guru } from "../../store/actions/actionUser";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Moment from "react-moment";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import qoreContext from "../../qoreContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -56,30 +52,6 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
-
-  // const { send, status } = qoreContext
-  //   .view("allMember")
-  //   .useForm("formRegistrasiGuru");
-  // console.log(status, " >>>status");
-  // console.log(send, "<<< send");
-
-  // async function handleRegister(e) {
-  //   e.prefentDefault();
-  //   await send({
-  //     email: email,
-  //     password: password,
-  //     alamat: address,
-  //     time: selectedDate,
-  //     nama: nama,
-  //     gender: gender,
-  //   })
-  //     .then((data) => {
-  //       console.log(data, ">>> data");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err, ">>> err");
-  //     });
-  // }
 
   function handleRegister(event) {
     event.preventDefault();

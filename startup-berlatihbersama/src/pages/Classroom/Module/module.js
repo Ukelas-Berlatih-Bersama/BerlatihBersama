@@ -12,24 +12,16 @@ import {
   Tabs,
   Tab,
   InputAdornment,
-  IconButton,
   Paper,
 } from "@material-ui/core";
-import { useParams, Link } from "react-router-dom";
-import {
-  ArrowBack,
-  Settings,
-  FiberManualRecord,
-  Search,
-  ArrowRight,
-} from "@material-ui/icons";
+import { useParams } from "react-router-dom";
+import { ArrowBack, Settings, Search } from "@material-ui/icons";
 import qoreContext, { client } from "../../../qoreContext";
 import CardMateri from "../../../components/cardMateri";
-import { id } from "date-fns/locale";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: "0 7em 0em 7em",
+    padding: "0 5em 0em 5em",
   },
   modal: {
     // display: "flex",
@@ -134,7 +126,7 @@ export default function Module() {
   };
 
   const handleClose = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setOpen(false);
   };
 
@@ -180,13 +172,14 @@ export default function Module() {
           id="description"
           label="Deskripsi"
           name="description"
+          fullWidth
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
         ></TextField>
       </div>
       <div style={{ marginBottom: 5 }}>
         <div style={{ display: "flex", marginBottom: -10 }}>
-          <Typography style={{ marginRight: 5 }}>URL Video/Youtube</Typography>
+          <Typography style={{ marginRight: 5 }}>URL Video/Artikel</Typography>
           <Typography style={{ color: "GrayText" }}>(Optional)</Typography>
         </div>
         <TextField
@@ -195,6 +188,7 @@ export default function Module() {
           id="video"
           label="Optional"
           name="video"
+          fullWidth
           value={video}
           onChange={(e) => setVideo(e.target.value)}
         ></TextField>
