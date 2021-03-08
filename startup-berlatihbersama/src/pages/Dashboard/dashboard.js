@@ -7,7 +7,6 @@ import {
   Grid,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
-import Navbar from "../../components/Navbar";
 import Footer from "../../components/footer";
 import Classroom from "../../components/cardClass";
 import qoreContext from "../../qoreContext";
@@ -71,7 +70,6 @@ function Dashboard() {
   return (
     <>
       <CssBaseline />
-      <Navbar />
       <Header />
       {status == "idle" ? preloadingClassroom : null}
 

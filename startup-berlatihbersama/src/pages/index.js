@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "../store";
 
+// import components
+import Navbar from "../components/Navbar";
+
 // import pages
 import Login from "./Login/loginPage";
 import Register from "./Register/registerPage";
@@ -68,7 +71,7 @@ function BeforeEnterContainer() {
 function DefaultContainer() {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <PrivateRoute path="/" exact>
         <Dashboard />
       </PrivateRoute>

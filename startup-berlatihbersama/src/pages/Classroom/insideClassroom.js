@@ -16,7 +16,6 @@ import {
 import qoreContext from "../../qoreContext";
 import { useParams, useHistory } from "react-router-dom";
 import CardSubject from "../../components/cardSubject";
-import Navbar from "../../components/Navbar";
 import Moment from "react-moment";
 import { ArrowBack, Settings, AccountCircle } from "@material-ui/icons";
 
@@ -176,7 +175,6 @@ export default function InsideClassroom() {
     <>
       {status == "success" ? (
         <div>
-          <Navbar />
           <main style={{ flexGrow: 1, padding: 30 }}>
             <Container className={classes.container}>
               <ButtonGroup
