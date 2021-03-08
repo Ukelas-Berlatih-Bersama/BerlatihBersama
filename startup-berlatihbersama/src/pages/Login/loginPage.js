@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import {
-  Avatar,
+  AppBar,
   Button,
-  CssBaseline,
   TextField,
-  Grid,
   Container,
   Typography,
   makeStyles,
@@ -12,13 +10,13 @@ import {
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
+import Alert from '@material-ui/lab/Alert';
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import Icon from "@material-ui/core/Icon";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/actionUser";
-import qoreContext from "../../qoreContext";
-import { QoreProject } from "@feedloop/qore-client";
+
+import Logo from "../../image/brand-logo.svg";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    padding: "16px 0",
+    boxShadow: "none",
+    backgroundColor: "#2950D8"
   },
 }));
 
@@ -58,45 +59,46 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const isLogin = useSelector((state) => state.reducerLogin.isLogin);
+  // auth state from redux
+  const auth = useSelector((state) => state.reducerLogin);
 
   const handleLogin = (event) => {
     event.preventDefault();
+
     let payload = {
       email: email,
       password: values,
     };
     dispatch(login(payload));
+    console.dir(auth);
   };
-  const svgIcon = (
-    <Icon>
-      <img alt="edit" src="https://i.imgur.com/XPmFXHy.png" />
-    </Icon>
-  );
+
   return (
     <>
-      {isLogin ? <Redirect to="/" /> : null}
-      <Box
-        display="flex"
-        p={1}
-        bgcolor="background.paper"
-        style={{ margin: "0 3em" }}
-      >
-        <Box p={1} width="100%">
-          {svgIcon}
+      {auth.isLogin ? <Redirect to="/" /> : null}
+      <AppBar position="static" style={{boxShadow: "0px 4px 10px rgba(107, 115, 128, 0.07)", backgroundColor: "white"}}>
+      <Container maxWidth="lg" >
+        <Box display="flex" justifyContent="space-between" py={1}>
+          <Box p={1} width="100%">
+            <Link to={"/"}>
+              <img alt="edit" src={Logo} />
+            </Link>
+          </Box>
+          <Box p={1} flexShrink={0}>
+            <Link to="/register" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                width={200}
+                style={{ textTransform: "none" }}
+              >
+                Buat Akun Baru
+              </Button>
+            </Link>
+          </Box>
         </Box>
-        <Box p={1} flexShrink={0}>
-          <Link to="/register" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="primary"
-              style={{ textTransform: "none" }}
-            >
-              Buat Akun Baru
-            </Button>
-          </Link>
-        </Box>
-      </Box>
+      </Container>
+      </AppBar>
       <Box display="flex" justifyContent="center" style={{ marginTop: "5rem" }}>
         <Typography component="h1" variant="h4">
           Selamat datang di Ukelas
@@ -107,20 +109,18 @@ export default function Login() {
           Silahkan masuk dengan akun Anda
         </Typography>
       </Box>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm">
         <div className={classes.paper}>
-          {/* <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar> */}
-          <form onSubmit={handleLogin} className={classes.form} noValidate>
+          {auth.error ? <Alert severity="error" style={{marginBottom:28}}>{auth.message}</Alert>:null}
+          <form onSubmit={handleLogin} className={classes.form}>
             <label>Email</label>
             <TextField
               variant="outlined"
               margin="normal"
+              style={{marginBottom: 28}}
               required
               fullWidth
               id="email"
-              label="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
@@ -132,10 +132,10 @@ export default function Login() {
             <TextField
               variant="outlined"
               margin="normal"
+              style={{marginBottom: 28}}
               required
               fullWidth
               name="password"
-              label="Password"
               type={values.showPassword ? "text" : "password"}
               id="password"
               autoComplete="current-password"
@@ -167,7 +167,7 @@ export default function Login() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              style={{ textTransform: "none" }}
+              style={{ textTransform: "none", fontSize: 18 }}
             >
               Masuk
             </Button>

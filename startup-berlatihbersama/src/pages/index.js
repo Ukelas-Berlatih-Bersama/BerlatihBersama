@@ -42,15 +42,13 @@ export default function index() {
           }}
         >
           <Router>
-            <div>
-              <Switch>
-                <Route exact path="/login" component={BeforeEnterContainer} />
-                <Route path="/register" component={Register} />
-                <Route path="/registerTeacher" component={RegisterTeacher} />
-                <Route path="/registerStudent" component={RegisterStudent} />
-                <Route component={DefaultContainer} />
-              </Switch>
-            </div>
+            <Switch>
+              <Route exact path="/login" component={BeforeEnterContainer} />
+              <Route path="/register" component={Register} />
+              <Route path="/registerTeacher" component={RegisterTeacher} />
+              <Route path="/registerStudent" component={RegisterStudent} />
+              <Route component={DefaultContainer} />
+            </Switch>
           </Router>
         </qoreContext.context.Provider>
       </Provider>
@@ -60,15 +58,15 @@ export default function index() {
 
 function BeforeEnterContainer() {
   return (
-    <div>
+    <>
       <Route path="/login" component={Login} />
-    </div>
+    </>
   );
 }
 
 function DefaultContainer() {
   return (
-    <div>
+    <>
       {/* <Navbar /> */}
       <PrivateRoute path="/" exact>
         <Dashboard />
@@ -88,7 +86,7 @@ function DefaultContainer() {
       <PrivateRoute path="/score">
         <Score />
       </PrivateRoute>
-    </div>
+    </>
   );
 }
 
