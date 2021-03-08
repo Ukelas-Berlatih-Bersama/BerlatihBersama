@@ -67,7 +67,7 @@ export default function Login() {
       password: values,
     };
     dispatch(login(payload));
-  }
+  };
   const svgIcon = (
     <Icon>
       <img alt="edit" src="https://i.imgur.com/XPmFXHy.png" />

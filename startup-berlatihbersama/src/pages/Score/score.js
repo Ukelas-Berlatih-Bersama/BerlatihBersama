@@ -15,8 +15,6 @@ import {
   Paper,
   TableRow,
   TableBody,
-  TableFooter,
-  TablePagination,
 } from "@material-ui/core";
 import { ArrowBack, Settings, Search } from "@material-ui/icons";
 import Pagination from "@material-ui/lab/Pagination";

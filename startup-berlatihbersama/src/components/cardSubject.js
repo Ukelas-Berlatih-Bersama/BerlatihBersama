@@ -28,11 +28,11 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 250,
     marginTop: "10%",
     alignContent: "center",
-    backgroundColor: "#f5f5f5",
+    // backgroundColor: "#f5f5f5",
   },
   modal: {
     position: "absolute",
-    width: 400,
+    width: 500,
     backgroundColor: theme.palette.background.paper,
     border: "1px solid blue",
     boxShadow: theme.shadows[5],
@@ -71,14 +71,11 @@ export default function CardSubject({ node }) {
 
   const handleClose = () => {
     setOpen(false);
+    setBuka(false);
   };
 
   const handleBuka = () => {
     setBuka(true);
-  };
-
-  const handleTutup = () => {
-    setBuka(false);
   };
 
   const handleMore = (event) => {
@@ -136,7 +133,10 @@ export default function CardSubject({ node }) {
                 className={classes.modal}
                 style={modalStyle}
               >
-                <Typography variant="h6">Edit Mata Pelajaran</Typography>
+                <Typography variant="h6" style={{ marginBottom: 10 }}>
+                  Edit Mata Pelajaran
+                </Typography>
+                <Typography variant="content">Nama Mata Pelajaran</Typography>
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -145,8 +145,9 @@ export default function CardSubject({ node }) {
                   label="Nama Mata Pelajaran"
                   name="name"
                   value={edit}
+                  fullWidth
                   onChange={(e) => setEdit(e.target.value)}
-                  style={{ margin: "15px 0 15px 0" }}
+                  style={{ margin: "8px 0 15px 0" }}
                 ></TextField>
                 <ButtonGroup
                   size="small"
@@ -156,7 +157,7 @@ export default function CardSubject({ node }) {
                     Batal
                   </Button>
                   <Button
-                    style={{ color: "blue" }}
+                    style={{ color: "GrayText", paddingLeft: 20 }}
                     variant="text"
                     type="submit"
                   >
@@ -170,7 +171,7 @@ export default function CardSubject({ node }) {
             </MenuItem>
             <Modal
               open={buka}
-              onClose={handleTutup}
+              onClose={handleClose}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -196,7 +197,7 @@ export default function CardSubject({ node }) {
                   }}
                   size="small"
                 >
-                  <Button variant="text" color="primary" onClick={handleTutup}>
+                  <Button variant="text" color="primary" onClick={handleClose}>
                     Batal
                   </Button>
                   <Button
