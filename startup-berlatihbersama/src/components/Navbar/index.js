@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import Logo from "../../image/brand-logo.svg";
 
@@ -22,6 +22,8 @@ const Navbar = function (props) {
     color: "#111828",
   };
 
+  const location = useLocation();
+
   return (
     <AppBar position="static" style={navbarStyle}>
       <Container maxWidth="lg">
@@ -32,7 +34,7 @@ const Navbar = function (props) {
             </Link>
           </Toolbar>
           <Box display="flex" justifyContent="space-between">
-            <Toolbar className="menu-item active">
+            <Toolbar className={["menu-item", ["/", "/classroom"].includes(location.pathname) ? "active":null]}>
               <HomeOutlinedIcon style={{ marginRight: ".5em" }} />
               <Typography>Kelas</Typography>
             </Toolbar>
