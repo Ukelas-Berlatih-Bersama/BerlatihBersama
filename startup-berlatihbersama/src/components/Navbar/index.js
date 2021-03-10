@@ -1,10 +1,4 @@
-import {
-  Container,
-  Box,
-  AppBar,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
+import { Container, Box, AppBar, Toolbar, Typography } from "@material-ui/core";
 
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import { Link, useLocation } from "react-router-dom";
@@ -22,7 +16,10 @@ const Navbar = function (props) {
     color: "#111828",
   };
 
-  const location = useLocation();
+  const { pathname } = useLocation();
+  // active indicator menu on page / and /classroom/(any)
+  const activeClassName =
+    /classroom\/+./.test(pathname) || pathname === "/" ? "active" : null;
 
   return (
     <AppBar position="static" style={navbarStyle}>
@@ -30,11 +27,11 @@ const Navbar = function (props) {
         <Box display="flex" justifyContent="space-between">
           <Toolbar style={{ padding: 0 }}>
             <Link to={"/"}>
-              <img src={Logo} alt="logo"/>
+              <img src={Logo} alt="logo" />
             </Link>
           </Toolbar>
           <Box display="flex" justifyContent="space-between">
-            <Toolbar className={["menu-item", ["/", "/classroom"].includes(location.pathname) ? "active":null]}>
+            <Toolbar className={`menu-item ${activeClassName}`}>
               <HomeOutlinedIcon style={{ marginRight: ".5em" }} />
               <Typography>Kelas</Typography>
             </Toolbar>

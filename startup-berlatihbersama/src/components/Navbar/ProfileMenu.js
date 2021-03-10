@@ -29,6 +29,10 @@ const ProfileMenu = function (props) {
 
   const { user, status } = qoreContext.useCurrentUser();
 
+  if(status === "success"){
+    localStorage.setItem("user_id", user.data.id);
+  }
+
   const handleLogout = () => {
     dispatch(logout());
     history.push("/");

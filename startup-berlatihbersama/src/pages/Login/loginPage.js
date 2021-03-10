@@ -70,7 +70,6 @@ export default function Login() {
       password: values,
     };
     dispatch(login(payload));
-    console.dir(auth);
   };
 
   return (

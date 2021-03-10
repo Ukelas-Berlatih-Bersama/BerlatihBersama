@@ -8,7 +8,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
 import qoreContext from "../../qoreContext";
 
 function getModalStyle() {
@@ -52,16 +51,15 @@ const Header = (data) => {
   const [year, setYear] = useState("");
   const [code, setCode] = useState("");
   const [joincode, setJoincode] = useState("");
-  const history = useHistory();
 
   const classes = useStyle();
 
-  const { send, status } = qoreContext
+  const { send } = qoreContext
     .view("allClassroom")
     .useForm("addNewClass");
   // console.log(status, ">>> status");
 
-  const { addRelation, removeRelation, statuses, errors } = qoreContext
+  const { addRelation } = qoreContext
     .view("allMember")
     .useRelation(data.userId);
 
