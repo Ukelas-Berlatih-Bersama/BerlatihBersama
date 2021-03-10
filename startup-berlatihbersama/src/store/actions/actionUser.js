@@ -1,39 +1,25 @@
 import axios from "axios";
+import { client } from "../../qoreContext";
 
 export const login = ({ email, password }) => {
   return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      axios
-        .post(
-          "https://prod-qore-app.qorebase.io/project-authenticate/zZiznDFqublSQFo",
-          {
-            identifier: email,
-            password: password,
-          },
-          {
-            headers: {
-              "X-Qore-Authentication": "Czt7dxVgaWaO4He",
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then(({ data }) => {
-          dispatch({
-            type: "LOGIN",
-            payload: data,
-          });
-          resolve();
-        })
-        .catch((error) => {
-          if (error.response.status === 401) {
-            dispatch({
-              type: "AUTH_ERROR",
-              payload: `Password yang Anda masukkan tidak cocok dengan email ${email}. Cek kembali password yang Anda masukkan`,
-            });
-          }
-          reject(error);
+    return client
+      .authenticate(email, password)
+      .then((token) => {
+        dispatch({
+          type: "LOGIN",
+          payload: { token, email },
         });
-    });
+      })
+      .catch((error) => {
+        console.dir(error);
+        if (error.message === "Request failed with status code 401") {
+          dispatch({
+            type: "AUTH_ERROR",
+            payload: `Password yang Anda masukkan tidak cocok dengan email ${email}. Cek kembali password yang Anda masukkan`,
+          });
+        }
+      });
   };
 };
 
