@@ -8,10 +8,10 @@ export const client = new QoreClient({
   onError: (error) => {
     switch (error.message) {
       case "Request failed with status code 500":
-        alert.message("An error has occured");
+        console.info("An error has occured");
         break;
       case "Request failed with status code 401":
-        alert.message("Email or Password wrong");
+        console.info("Email or Password wrong");
         break;
     }
   },
