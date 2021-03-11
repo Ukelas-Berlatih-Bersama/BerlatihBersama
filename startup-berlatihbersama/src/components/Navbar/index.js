@@ -30,12 +30,14 @@ const Navbar = function (props) {
               <img src={Logo} alt="logo" />
             </Link>
           </Toolbar>
-          <Box display="flex" justifyContent="space-between">
-            <Toolbar className={`menu-item ${activeClassName}`}>
-              <HomeOutlinedIcon style={{ marginRight: ".5em" }} />
-              <Typography>Kelas</Typography>
-            </Toolbar>
-          </Box>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Box display="flex" justifyContent="space-between">
+              <Toolbar className={`menu-item ${activeClassName}`}>
+                <HomeOutlinedIcon style={{ marginRight: ".5em" }} />
+                <Typography>Kelas</Typography>
+              </Toolbar>
+            </Box>
+          </Link>
           <Toolbar style={{ padding: 0 }}>
             <NotificationMenu />
             <ProfileMenu />
