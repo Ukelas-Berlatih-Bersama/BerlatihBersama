@@ -11,7 +11,7 @@ import {
   ClickAwayListener,
 } from "@material-ui/core";
 import Skeleton from '@material-ui/lab/Skeleton';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/actionUser";
 import { useHistory } from "react-router-dom";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
@@ -20,7 +20,7 @@ import qoreContext from "../../qoreContext";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 
-const ProfileMenu = function (props) {
+const ProfileMenu = function () {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -39,6 +39,7 @@ const ProfileMenu = function (props) {
   };
 
   const handleToProfile = () => {
+    setOpen(false);
     history.push("/profile");
   }
 
@@ -50,7 +51,6 @@ const ProfileMenu = function (props) {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
