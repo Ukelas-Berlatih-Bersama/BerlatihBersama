@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   MenuItem,
   MenuList,
@@ -9,6 +9,7 @@ import {
   Popper,
   Grow,
   ClickAwayListener,
+  Hidden,
 } from "@material-ui/core";
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch } from "react-redux";
@@ -29,9 +30,11 @@ const ProfileMenu = function () {
 
   const { user, status } = qoreContext.useCurrentUser();
 
-  if(status === "success"){
-    localStorage.setItem("user_id", user.data.id);
-  }
+  useEffect(() => {
+    if(status === "success"){
+      localStorage.setItem("user_id", user.data.id);
+    }
+  },[status]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -73,6 +76,7 @@ const ProfileMenu = function () {
   return (
     <>
       <Avatar style={{ borderRadius: "4px", margin: "auto 1em" }} src="https://randomuser.me/api/portraits/men/20.jpg" onClick={handleToggle}>JD</Avatar>
+      <Hidden only={["xs", "sm"]}>
       <div style={{ marginRight: "1em" }}>
         <Typography
           variant="body1"
@@ -90,6 +94,7 @@ const ProfileMenu = function () {
           {status === "success" ? user.email : <Skeleton variant="text" width={120}/>}
         </Typography>
       </div>
+      </Hidden>
       <IconButton
         onClick={handleToggle}
         ref={anchorRef}

@@ -173,7 +173,7 @@ export default function CardSubject(props) {
           <Button variant="text" color="primary" onClick={handleClose} style={{color: "GrayText", marginRight: "1em"}}>
             Batal
           </Button>
-          <Button variant="text" color="secondary" onClick={handleDelete}  {...isLoading ? "disabled":null}>
+          <Button variant="text" color="secondary" onClick={handleDelete}  disabled={isLoading}>
           {isLoading ? <CircularProgress size={18} style={{marginRight:10}} color="secondary"/>:null}
             Hapus
           </Button>

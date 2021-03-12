@@ -6,9 +6,11 @@ import {
   Box,
   Modal,
   TextField,
+  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import qoreContext from "../../qoreContext";
+import uniqid from "uniqid";
 
 function getModalStyle() {
   return {
@@ -41,48 +43,39 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const Header = (data) => {
-  // console.log(data.userId, ">>> class id");
-  const [openJoinRoom, setOpenJoinRoom] = React.useState(false);
-  const [modalStyle] = React.useState(getModalStyle);
-  const [openCreateRoom, setOpenCreateRoom] = React.useState(false);
+const Header = (props) => {
+  const [modalStyle] = useState(getModalStyle);
+  const [openJoinRoom, setOpenJoinRoom] = useState(false);
+  const [openCreateRoom, setOpenCreateRoom] = useState(false);
   const [nama, setNama] = useState("");
-  const [desc, setDesc] = useState("");
   const [year, setYear] = useState("");
-  const [code, setCode] = useState("");
   const [joincode, setJoincode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
+  const userId = localStorage.getItem("user_id");
   const classes = useStyle();
 
-  const { send } = qoreContext
-    .view("allClassroom")
-    .useForm("addNewClass");
-  // console.log(status, ">>> status");
-
-  const { addRelation } = qoreContext
-    .view("allMember")
-    .useRelation(data.userId);
+  const { insertRow } = qoreContext.view("allClassroom").useInsertRow();
+  const { addRelation } = qoreContext.view("allMember").useRelation(userId);
 
   async function addNewClass(e) {
     e.preventDefault();
-    await send({
+    setIsLoading(true);
+    await insertRow({
       name: nama,
-      description: desc,
       schoolYear: year,
-      code: code,
-    }).then((data) => {
-      // console.log(data.id, ">>> data");
-      let classId = data.id;
-      return addRelationClass({ e, classId });
+      teacher: [userId],
+      inviteCode: uniqid.time(),
+    }).then((room) => {
+      return addRelation({
+        classroom: [room.id],
+      });
+    }).catch(error => {
+      console.info(error);
     });
-  }
-
-  async function addRelationClass({ e, classId }) {
-    e.preventDefault();
-    await addRelation({
-      classroom: [classId],
-    });
-    window.location.reload();
+    props.onRoomAdded();
+    setIsLoading(false);
+    setOpenCreateRoom(false);
   }
 
   const handleCreateClassroom = () => {
@@ -163,30 +156,14 @@ const Header = (data) => {
             variant="outlined"
             margin="normal"
             required
-            id="name"
             placeholder="Masukan Nama kelas"
-            name="name"
             autoFocus
             value={nama}
             fullWidth
             onChange={(e) => setNama(e.target.value)}
           ></TextField>
         </div>
-        {/* <div style={{ marginTop: 10 }}>
-          <Typography variant="body2" style={{ marginBottom: -10 }}>
-            Deskripsi
-          </Typography>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            id="description"
-            label="Deskripsi kelas"
-            name="description"
-            fullWidth
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-          ></TextField>
-        </div> */}
+
         <div style={{ marginTop: 10 }}>
           <Typography variant="body2" style={{ marginBottom: -10 }}>
             Tahun Ajaran
@@ -195,29 +172,13 @@ const Header = (data) => {
             variant="outlined"
             margin="normal"
             required
-            id="year"
             placeholder="contoh: 2020/2021"
-            name="year"
             fullWidth
             value={year}
             onChange={(e) => setYear(e.target.value)}
           ></TextField>
         </div>
-        <div style={{ marginTop: 10 }}>
-          <Typography variant="body2" style={{ marginBottom: -10 }}>
-            Kode Kelas
-          </Typography>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            id="code"
-            placeholder="Masukkan kode kelas"
-            name="code"
-            fullWidth
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-          ></TextField>
-        </div>
+        
         <div
           style={{ display: "flex", justifyContent: "flex-end", marginTop: 15 }}
         >
@@ -228,7 +189,8 @@ const Header = (data) => {
           >
             Batal
           </Button>
-          <Button color="primary" type="submit" size="small">
+          <Button color="primary" type="submit" size="small" disabled={isLoading} >
+            {isLoading ? <CircularProgress size={16} style={{marginRight: 10}}/>:null}
             Buat Kelas
           </Button>
         </div>

@@ -24,7 +24,7 @@ const useStyle = makeStyles((theme) => ({
 function Dashboard() {
   const classes = useStyle();
 
-  const { data: classrooms, status } = qoreContext
+  const { data: classrooms, status, revalidate } = qoreContext
     .view("teacherClassroom")
     .useListRow({
       teacherId: localStorage.getItem("user_id"),
@@ -74,7 +74,7 @@ function Dashboard() {
   return (
     <>
       <CssBaseline />
-      <Header />
+      <Header onRoomAdded={revalidate} />
       {classrooms.length > 0 ? (
         <Container maxWidth="lg">
           <main style={{ flexGrow: 2 }}>
@@ -83,7 +83,7 @@ function Dashboard() {
                 {classrooms.map((room, i) => {
                   return (
                     <Grid item xs={4} key={i}>
-                      <Classroom room={room} key={i} />
+                      <Classroom room={room} key={i} onUpdated={revalidate}/>
                     </Grid>
                   );
                 })}
