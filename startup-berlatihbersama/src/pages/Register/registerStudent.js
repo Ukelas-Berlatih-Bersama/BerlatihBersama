@@ -10,9 +10,7 @@ import {
   RadioGroup,
   FormControlLabel,
 } from "@material-ui/core";
-import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
 import { register_siswa } from "../../store/actions/actionUser";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -20,6 +18,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
 } from "@material-ui/pickers";
+import RegisterNavbar from "./RegisterNavbar";
 import DateFnsUtils from "@date-io/date-fns";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,11 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const svgIcon = (
-  <Icon>
-    <img alt="edit" src="https://i.imgur.com/XPmFXHy.png" />
-  </Icon>
-);
+
 export default function Register() {
   const classes = useStyles();
 
@@ -73,23 +68,8 @@ export default function Register() {
   };
 
   return (
-    <div>
-      <Box
-        display="flex"
-        p={1}
-        bgcolor="background.paper"
-        style={{ margin: "0 3em" }}
-      >
-        <Box p={1} width="100%">
-          {svgIcon}
-        </Box>
-        <Box p={1} flexShrink={0}>
-          Sudah punya akun?
-          <Link to="/login" style={{ textDecoration: "none" }}>
-            Masuk Sekarang
-          </Link>
-        </Box>
-      </Box>
+    <>
+      <RegisterNavbar />
       <Box display="flex" justifyContent="center" style={{ marginTop: "2rem" }}>
         <Typography component="h1" variant="h4">
           Lengkapi data diri Anda sebagai Siswa
@@ -100,7 +80,7 @@ export default function Register() {
           Bergabunglah dengan kelas dengan Kode yang diberikan oleh Guru Anda
         </Typography>
       </Box>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm">
         <div className={classes.paper}>
           <form onSubmit={handleRegister} className={classes.form}>
             <Grid container spacing={2}>
@@ -233,6 +213,6 @@ export default function Register() {
           </form>
         </div>
       </Container>
-    </div>
+    </>
   );
 }

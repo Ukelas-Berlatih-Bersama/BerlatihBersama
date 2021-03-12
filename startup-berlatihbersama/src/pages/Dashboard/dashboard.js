@@ -9,7 +9,7 @@ import qoreContext from "../../qoreContext";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 
-import chalkBoardIllustration from "../../image/class-chalkboard.svg";
+import chalkBoardIllustration from "../../image/illustration/class-chalkboard.svg";
 
 const useStyle = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -24,12 +24,11 @@ const useStyle = makeStyles((theme) => ({
 function Dashboard() {
   const classes = useStyle();
 
-  const req = qoreContext.view("teacherClassroom").useListRow({
-    teacherId: localStorage.getItem("user_id"),
-  });
-
-  const { data: classrooms, status } = req;
-
+  const { data: classrooms, status } = qoreContext
+    .view("teacherClassroom")
+    .useListRow({
+      teacherId: localStorage.getItem("user_id"),
+    });
 
   const preloadingClassroom = (
     <Container maxWidth="lg">

@@ -110,7 +110,6 @@ export default function CardClass({ room }) {
     <Menu
       id="simple-menu"
       anchorEl={anchorEl}
-      keepMounted
       open={Boolean(anchorEl)}
       onClose={handleShut}
     >

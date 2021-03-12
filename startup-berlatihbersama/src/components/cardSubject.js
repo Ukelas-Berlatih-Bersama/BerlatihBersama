@@ -6,7 +6,7 @@ import {
   Typography,
   CardContent,
   Button,
-  CardActions,
+  CircularProgress,
   Modal,
   TextField,
   MenuItem,
@@ -37,190 +37,193 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid blue",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    outline: "none",
   },
   media: {
     height: 50,
   },
 }));
 
-export default function CardSubject({ node }) {
-  // console.log(node, ">>> room");
+export default function CardSubject(props) {
+  const { subject } = props;
   const classes = useStyles();
-  const [buka, setBuka] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [edit, setEdit] = useState("");
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [modalStyle] = React.useState(getModalStyle);
+  const [modalStyle] = useState(getModalStyle);
 
+  // states
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [openFormEdit, setOpenFormEdit] = useState(false);
+  const [name, setName] = useState(subject.name);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isLoading, setIsloading] = useState(false);
+  
   const { updateRow, status } = qoreContext.view("allSubject").useUpdateRow();
 
   const { deleteRow } = qoreContext.view("allSubject").useDeleteRow();
-  //   console.log(deleteRow, ">>>> delete");
-  // console.log(status, ">>>> status");
 
-  async function editSubject(e) {
-    e.preventDefault();
-    // console.log(node.id, ">>>di editSubject()");
-    await updateRow(node.id, { name: edit });
-    window.location.reload();
-  }
-
-  const handleOpen = () => {
-    setOpen(true);
+  const handleEdit = async (event) => {
+    event.preventDefault();
+    setIsloading(true);
+    await updateRow(subject.id, { name: name });
+    props.onUpdated();
+    setIsloading(false);
+    setName("");
+    handleClose();
   };
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    setIsloading(true);
+    await deleteRow(subject.id).then((data) => {
+      if (data == true) {
+        props.onUpdated();
+        setIsloading(false);
+        handleClose();
+      }
+    });
+  };
+
+  const handleOpenEdit = () => setOpenFormEdit(true);
+  const handleOpnConfirm = () => setOpenConfirm(true);
 
   const handleClose = () => {
-    setOpen(false);
-    setBuka(false);
-  };
-
-  const handleBuka = () => {
-    setBuka(true);
+    setOpenConfirm(false);
+    setOpenFormEdit(false);
+    setAnchorEl(null);
   };
 
   const handleMore = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleShut = () => {
-    setAnchorEl(null);
-  };
+  const editForm = (
+    <Modal
+      open={openFormEdit}
+      onClose={handleClose}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <form onSubmit={handleEdit} className={classes.modal} style={modalStyle}>
+        <Typography variant="h6" style={{ marginBottom: 10 }}>
+          Edit Mata Pelajaran
+        </Typography>
+        <Typography variant="content">Nama Mata Pelajaran</Typography>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          id="name"
+          placeholder="Nama Mata Pelajaran"
+          name="name"
+          value={name}
+          fullWidth
+          onChange={(e) => setName(e.target.value)}
+          style={{ margin: "8px 0 15px 0" }}
+        ></TextField>
+        <ButtonGroup
+          size="small"
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <Button
+            style={{ color: "GrayText", marginRight: "1em" }}
+            color="primary"
+            variant="text"
+            onClick={handleClose}
+          >
+            Batal
+          </Button>
+          <Button variant="text" color="primary" type="submit" {...isLoading ? "disabled":null}>
+          {isLoading ? <CircularProgress size={18} style={{marginRight:10}}/>:null}
+            Simpan
+          </Button>
+        </ButtonGroup>
+      </form>
+    </Modal>
+  );
+
+  const deleteConfirmationDialog = (
+    <Modal
+      open={openConfirm}
+      onClose={handleClose}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div style={modalStyle} className={classes.modal}>
+        <Typography variant="h6" id="simple-modal-title">
+          Hapus {subject.displayField}?
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          id="simple-modal-description"
+          style={{ color: "gray", margin: "15px 0 15px 0" }}
+        >
+          Anda yakin untuk menghapus {subject.displayField}? Setelah dihapus,
+          semua data {subject.displayField} akan terhapus.
+        </Typography>
+        <ButtonGroup
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+          size="small"
+        >
+          <Button variant="text" color="primary" onClick={handleClose} style={{color: "GrayText", marginRight: "1em"}}>
+            Batal
+          </Button>
+          <Button variant="text" color="secondary" onClick={handleDelete}  {...isLoading ? "disabled":null}>
+          {isLoading ? <CircularProgress size={18} style={{marginRight:10}} color="secondary"/>:null}
+            Hapus
+          </Button>
+        </ButtonGroup>
+      </div>
+    </Modal>
+  );
 
   return (
-    <div>
-      <Card className={classes.root}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Link
-            to={`/subject/${node.id}`}
-            style={{ textDecoration: "none", color: "black", width: "80%" }}
-          >
-            <CardActionArea>
-              <CardContent>
-                <Typography color="primary" variant="h6">
-                  {node.displayField}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Link>
-          <Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleMore}
-          >
-            <MoreVert />
-          </Button>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleShut}
-          >
-            <MenuItem onClick={handleOpen} style={{ color: "blue" }}>
-              Edit
-            </MenuItem>
-            <Modal
-              open={open}
-              onClose={handleClose}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <form
-                onSubmit={editSubject}
-                className={classes.modal}
-                style={modalStyle}
-              >
-                <Typography variant="h6" style={{ marginBottom: 10 }}>
-                  Edit Mata Pelajaran
-                </Typography>
-                <Typography variant="content">Nama Mata Pelajaran</Typography>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  id="name"
-                  label="Nama Mata Pelajaran"
-                  name="name"
-                  value={edit}
-                  fullWidth
-                  onChange={(e) => setEdit(e.target.value)}
-                  style={{ margin: "8px 0 15px 0" }}
-                ></TextField>
-                <ButtonGroup
-                  size="small"
-                  style={{ display: "flex", justifyContent: "flex-end" }}
-                >
-                  <Button color="primary" variant="text" onClick={handleClose}>
-                    Batal
-                  </Button>
-                  <Button
-                    style={{ color: "GrayText", paddingLeft: 20 }}
-                    variant="text"
-                    type="submit"
-                  >
-                    Simpan Perubahan
-                  </Button>
-                </ButtonGroup>
-              </form>
-            </Modal>
-            <MenuItem onClick={handleBuka} style={{ color: "red" }}>
-              Hapus
-            </MenuItem>
-            <Modal
-              open={buka}
-              onClose={handleClose}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div style={modalStyle} className={classes.modal}>
-                <Typography variant="h6" id="simple-modal-title">
-                  Hapus {node.displayField}?
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  id="simple-modal-description"
-                  style={{ color: "gray", margin: "15px 0 15px 0" }}
-                >
-                  Anda yakin untuk menghapus {node.displayField}? Setelah
-                  dihapus, semua data {node.displayField} akan terhapus.
-                </Typography>
-                <ButtonGroup
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                  size="small"
-                >
-                  <Button variant="text" color="primary" onClick={handleClose}>
-                    Batal
-                  </Button>
-                  <Button
-                    variant="text"
-                    color="secondary"
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      await deleteRow(node.id).then((data) => {
-                        // console.log(data, "data delete >>>");
-                        if (data == true) {
-                          window.location.reload();
-                        }
-                      });
-                    }}
-                  >
-                    Hapus
-                  </Button>
-                </ButtonGroup>
-              </div>
-            </Modal>
-          </Menu>
-        </div>
-      </Card>
-    </div>
+    <Card className={classes.root}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Link
+          to={`/subject/${subject.id}`}
+          style={{ textDecoration: "none", color: "black", width: "80%" }}
+        >
+          <CardActionArea>
+            <CardContent>
+              <Typography color="primary" variant="h6">
+                {subject.name}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Link>
+        <Button
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleMore}
+        >
+          <MoreVert />
+        </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleOpenEdit} style={{ color: "blue" }}>
+            Edit
+          </MenuItem>
+
+          <MenuItem onClick={handleOpnConfirm} style={{ color: "red" }}>
+            Hapus
+          </MenuItem>
+        </Menu>
+        {editForm}
+        {deleteConfirmationDialog}
+      </div>
+    </Card>
   );
 }

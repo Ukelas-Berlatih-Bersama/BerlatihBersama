@@ -15,8 +15,8 @@ import {
 import qoreContext from "../../qoreContext";
 import { useParams, useHistory } from "react-router-dom";
 import CardSubject from "../../components/cardSubject";
-import Navbar from "../../components/Navbar";
 import { ArrowBack, Settings, AccountCircle } from "@material-ui/icons";
+import RoomHeader from "./RoomHeader";
 // import EmptyClassroom from "../../components/emptyChalkboard";
 
 function getModalStyle() {
@@ -26,9 +26,6 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "0 5em 0em 5em",
-  },
   modal: {
     position: "absolute",
     width: 500,
@@ -72,30 +69,29 @@ export default function InsideClassroom() {
   const [toogle, setToogle] = React.useState(0);
   const [modalStyle] = React.useState(getModalStyle);
 
-  // console.log(toogle, ">>> toog");
-
   const { data: classroom, status } = qoreContext
     .view("allClassroom")
     .useGetRow(someClassroomId);
-  // console.log(JSON.stringify(classroom, null, 2), ">>> user");
-  // console.log(someClassroomId, ">>> id");
+
+  const { data: subjects, revalidate: subjectRevalidate } = qoreContext
+    .view("classroomSubject")
+    .useListRow({
+      roomId: someClassroomId,
+    });
 
   const { insertRow } = qoreContext.view("allSubject").useInsertRow();
-  // console.log(insertRow, "<<< send");
 
   const { addRelation, removeRelation, statuses, errors } = qoreContext
     .view("allClassroom")
     .useRelation(someClassroomId);
 
   const { updateRow } = qoreContext.view("allClassroom").useUpdateRow();
-  // console.log(updateRow, "<<< update");
 
   async function addSubject(e) {
     e.preventDefault();
     await insertRow({
       name: subj,
     }).then((data) => {
-      // console.log(data.id, ">>>>data id");
       let idSub = data.id;
       return addSubjectRelation({ e, idSub });
     });
@@ -106,7 +102,9 @@ export default function InsideClassroom() {
     await addRelation({
       subject: [idSub],
     });
-    window.location.reload();
+    subjectRevalidate();
+    setOpen(false);
+    // window.location.reload();
   }
 
   async function handleEditClass(e) {
@@ -152,7 +150,7 @@ export default function InsideClassroom() {
         margin="normal"
         required
         id="name"
-        label="Masukkan Nama Mata Pelajaran"
+        placeholder="Masukan Nama Mata Pelajaran"
         name="name"
         fullWidth
         value={subj}
@@ -178,113 +176,28 @@ export default function InsideClassroom() {
   return (
     <>
       {status == "success" ? (
-        <div>
-          <main style={{ flexGrow: 1, padding: 30 }}>
-            <Container className={classes.container}>
-              <ButtonGroup
-                style={{ display: "flex", justifyContent: "space-between" }}
+        <>
+          <RoomHeader room={classroom} />
+          <main style={{ flexGrow: 1 }}>
+            <Container maxWidth="lg">
+              <Tabs
+                value={toogle}
+                onChange={handleSwitch}
+                indicatorColor="primary"
+                textColor="primary"
+                centered
+                variant="fullWidth"
               >
-                <Button
-                  startIcon={<ArrowBack />}
-                  size="small"
-                  variant="text"
-                  color="primary"
-                  onClick={handleBackClass}
-                >
-                  Kembali ke Daftar Kelas
-                </Button>
-                <Button
-                  startIcon={<Settings />}
-                  size="small"
-                  variant="text"
-                  color="primary"
-                  onClick={handleBuka}
-                >
-                  Edit Kelas
-                </Button>
-                <Modal
-                  open={buka}
-                  onClose={handleTutup}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <form onSubmit={handleEditClass} className={classes.modal}>
-                    <Typography variant="h6">Edit Kelas</Typography>
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      id="name"
-                      label="Edit Nama Kelas"
-                      name="name"
-                      fullWidth
-                      value={edit}
-                      onChange={(e) => setEdit(e.target.value)}
-                      style={{ margin: "20px 0 20px 0" }}
-                    ></TextField>
-                    <ButtonGroup
-                      style={{ display: "flex", justifyContent: "flex-end" }}
-                    >
-                      <Button
-                        variant="text"
-                        color="primary"
-                        onClick={handleTutup}
-                      >
-                        Batal
-                      </Button>
-                      <Button
-                        style={{ color: "GrayText" }}
-                        variant="text"
-                        type="submit"
-                      >
-                        Simpan Perubahan
-                      </Button>
-                    </ButtonGroup>
-                  </form>
-                </Modal>
-              </ButtonGroup>
-              <div style={{ paddingTop: 10 }}>
-                <Typography variant="h4">{classroom.name}</Typography>
-              </div>
-              <div style={{ marginTop: 15 }}>
-                <div className={classes.gray}>
-                  <Typography style={{ color: "#6B7380" }}>
-                    Kode Kelas:
-                  </Typography>
-                  <Typography style={{ paddingLeft: 5 }}>
-                    {classroom.code}
-                  </Typography>
-                </div>
-                <div className={classes.gray}>
-                  <Typography style={{ color: "#6B7380" }}>
-                    Tahun Ajaran:
-                  </Typography>
-                  <Typography style={{ paddingLeft: 5 }}>
-                    {classroom.schoolYear}
-                  </Typography>
-                </div>
-              </div>
-              <Grid className={classes.root}>
-                <Tabs
-                  value={toogle}
-                  onChange={handleSwitch}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab style={{ width: 400 }} label="Mata Pelajaran" />
-                  <Tab style={{ width: 400 }} label="Siswa" />
-                </Tabs>
-              </Grid>
+                <Tab style={{ width: "100%" }} label="Mata Pelajaran" />
+                <Tab style={{ width: "100%" }} label="Anggota Kelas" />
+              </Tabs>
 
               <div>
                 {toogle == 0 ? (
                   <>
                     <div className={classes.add}>
                       <Typography variant="h6">
-                        Semua Mata Pelajaran ({classroom.subject.totalCount})
+                        Semua Mata Pelajaran ({subjects.length})
                       </Typography>
                       <Button
                         variant="contained"
@@ -305,16 +218,15 @@ export default function InsideClassroom() {
                         {body}
                       </Modal>
                     </div>
-                    <div className={classes.mod}>
-                      {classroom.subject.nodes.map((node, i) => {
-                        // console.log(node, ">>>> node");
+                    <Grid container>
+                      {subjects.map((subject) => {
                         return (
-                          <Grid item xs={3} key={i}>
-                            <CardSubject node={node} key={i} />
+                          <Grid item sm={3}>
+                            <CardSubject subject={subject} onUpdated={subjectRevalidate} key={subject.id} />
                           </Grid>
                         );
                       })}
-                    </div>
+                    </Grid>
                   </>
                 ) : (
                   <Container>
@@ -339,7 +251,6 @@ export default function InsideClassroom() {
                           </Typography>
                         </div>
                         {classroom.teacher.nodes.map((nod, i) => {
-                          // console.log(nod, ">>> nod");
                           return (
                             <div
                               style={{
@@ -372,11 +283,10 @@ export default function InsideClassroom() {
                             variant="body1"
                             style={{ fontWeight: "bold" }}
                           >
-                            Siswa ({classroom.siswa.totalCount})
+                            Siswa ({classroom.student.totalCount})
                           </Typography>
                         </div>
-                        {classroom.siswa.nodes.map((nod, i) => {
-                          // console.log(nod, ">>> nod");
+                        {classroom.student.nodes.map((nod, i) => {
                           return (
                             <div
                               style={{
@@ -399,7 +309,7 @@ export default function InsideClassroom() {
               </div>
             </Container>
           </main>
-        </div>
+        </>
       ) : null}
     </>
   );

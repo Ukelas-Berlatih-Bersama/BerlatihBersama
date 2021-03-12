@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
-  CardActionArea,
   CardMedia,
   Grid,
   Container,
@@ -11,6 +10,9 @@ import {
 } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
 import { Link } from "react-router-dom";
+import RegisterNavbar from "./RegisterNavbar";
+import TeacherIllustration from "../../image/illustration/teacher.svg";
+import StudentIllustration from "../../image/illustration/student.svg";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -19,41 +21,33 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
+  link: {
+    textDecoration: "none",
+  },
   root: {
     width: 400,
-    padding: "2em",
+    border: "1px solid #D1D4DB",
+    borderRadius: 4,
+    boxShadow: "none",
+    padding: "40px 28px",
+    "&:hover": {
+      backgroundColor: "rgba(66, 103, 233, 0.05)",
+      border: "1px solid #4267E9",
+    },
   },
   media: {
-    height: "10em",
-    width: "10em",
+    height: "100px",
+    width: "100px",
+    marginBottom: 24,
   },
 }));
-const svgIcon = (
-  <Icon>
-    <img alt="edit" src="https://i.imgur.com/XPmFXHy.png" />
-  </Icon>
-);
 export default function MediaCard() {
   const classes = useStyles();
 
   return (
-    <div className={classes.background}>
-      <Box
-        display="flex"
-        p={1}
-        bgcolor="background.paper"
-        style={{ margin: "0 3em" }}
-      >
-        <Box p={1} width="100%">
-          {svgIcon}
-        </Box>
-        <Box p={1} flexShrink={0}>
-          Sudah punya akun?
-          <Link to="/login" style={{ textDecoration: "none" }}>
-            Masuk Sekarang
-          </Link>
-        </Box>
-      </Box>
+    <>
+      <RegisterNavbar />
+
       <Box display="flex" justifyContent="center" style={{ marginTop: "5rem" }}>
         <Typography component="h1" variant="h4">
           Pendaftaran Akun.
@@ -64,6 +58,7 @@ export default function MediaCard() {
           Silahkan pilih jenis akun Anda
         </Typography>
       </Box>
+
       <Container>
         <div className={classes.paper}>
           <Grid
@@ -75,56 +70,63 @@ export default function MediaCard() {
             justify="space-evenly"
             alignItems="center"
           >
-            <Card className={classes.root}>
-              <CardActionArea>
-                <Link to="/registerTeacher">
-                  <Box align="center">
-                    <CardMedia
-                      className={classes.media}
-                      image="https://i.imgur.com/PJeRJQ0.png"
-                    />
-                  </Box>
-                </Link>
-              </CardActionArea>
-              <Typography
-                align="center"
-                style={{ fontSize: "1.5rem", fontWeight: "bold" }}
-              >
-                Akun Guru
-              </Typography>
-              <Typography
-                align="center"
-                style={{ fontSize: "1rem", color: "#6B7380" }}
-              >
-                Digunakan oleh guru atau asisten guru untuk mengelola kelas,
-                mengelola materi dan tugas
-              </Typography>
-            </Card>
-            <Card className={classes.root}>
-              <CardActionArea>
-                <Link to="/registerStudent">
-                  <Box align="center">
-                    <CardMedia
-                      className={classes.media}
-                      image="https://i.imgur.com/Ido9BDM.png"
-                    />
-                  </Box>
-                </Link>
-              </CardActionArea>
-              <Typography
-                align="center"
-                style={{ fontSize: "1.5rem", fontWeight: "bold" }}
-              >
-                Akun Siswa
-              </Typography>
-              <Typography
-                align="center"
-                style={{ fontSize: "1rem", color: "#6B7380" }}
-              >
-                Digunakan oleh siswa untuk melihat materi dan tugas yang
-                tersedia
-              </Typography>
-            </Card>
+            <Link to="/registerTeacher" className={classes.link}>
+              <Card className={classes.root}>
+                <Box align="center">
+                  <CardMedia
+                    className={classes.media}
+                    image={TeacherIllustration}
+                  />
+                </Box>
+
+                <Typography
+                  align="center"
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: "bold",
+                    marginBottom: 12,
+                  }}
+                >
+                  Akun Guru
+                </Typography>
+                <Typography
+                  align="center"
+                  style={{ fontSize: 16, color: "#6B7380" }}
+                >
+                  Digunakan oleh guru atau asisten guru untuk mengelola kelas,
+                  mengelola materi dan tugas
+                </Typography>
+              </Card>
+            </Link>
+
+            <Link to="/registerStudent" className={classes.link}>
+              <Card className={classes.root}>
+                <Box align="center">
+                  <CardMedia
+                    className={classes.media}
+                    image={StudentIllustration}
+                  />
+                </Box>
+
+                <Typography
+                  align="center"
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: "bold",
+                    marginBottom: 12,
+                  }}
+                >
+                  Akun Siswa
+                </Typography>
+                <Typography
+                  align="center"
+                  style={{ fontSize: 16, color: "#6B7380" }}
+                >
+                  Digunakan oleh siswa untuk melihat materi <br /> dan tugas
+                  yang tersedia
+                </Typography>
+              </Card>
+            </Link>
           </Grid>
           {/* <Grid container justify="center">
             <Grid item>
@@ -140,6 +142,6 @@ export default function MediaCard() {
           </Typography>
         </div>
       </Container>
-    </div>
+    </>
   );
 }

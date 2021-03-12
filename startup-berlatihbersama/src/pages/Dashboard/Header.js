@@ -164,7 +164,7 @@ const Header = (data) => {
             margin="normal"
             required
             id="name"
-            label="Masukkan Nama kelas"
+            placeholder="Masukan Nama kelas"
             name="name"
             autoFocus
             value={nama}
@@ -172,7 +172,7 @@ const Header = (data) => {
             onChange={(e) => setNama(e.target.value)}
           ></TextField>
         </div>
-        <div style={{ marginTop: 10 }}>
+        {/* <div style={{ marginTop: 10 }}>
           <Typography variant="body2" style={{ marginBottom: -10 }}>
             Deskripsi
           </Typography>
@@ -186,17 +186,17 @@ const Header = (data) => {
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
           ></TextField>
-        </div>
+        </div> */}
         <div style={{ marginTop: 10 }}>
           <Typography variant="body2" style={{ marginBottom: -10 }}>
-            Tahun Pelajaran
+            Tahun Ajaran
           </Typography>
           <TextField
             variant="outlined"
             margin="normal"
             required
             id="year"
-            label="Tahun Pelajaran"
+            placeholder="contoh: 2020/2021"
             name="year"
             fullWidth
             value={year}
@@ -210,9 +210,8 @@ const Header = (data) => {
           <TextField
             variant="outlined"
             margin="normal"
-            required
             id="code"
-            label="Masukkan kode kelas"
+            placeholder="Masukkan kode kelas"
             name="code"
             fullWidth
             value={code}
@@ -249,7 +248,7 @@ const Header = (data) => {
         >
           <Box>
             <Typography variant="h4" style={{ marginBottom: 12 }}>
-              Semua Kelas
+              Ruang Kelas Anda
             </Typography>
             <Typography>Pilih dan kelola kelas Anda dengan mudah</Typography>
           </Box>
@@ -260,7 +259,7 @@ const Header = (data) => {
               className={classes.margin}
               onClick={handleCreateClassroom}
             >
-              Tambah Kelas
+              + Tambah Kelas
             </Button>
             <Button
               id="btn-join"
