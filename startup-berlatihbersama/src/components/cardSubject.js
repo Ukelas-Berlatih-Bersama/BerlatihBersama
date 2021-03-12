@@ -25,8 +25,7 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 250,
-    marginTop: "10%",
+    marginTop: "2em",
     alignContent: "center",
     // backgroundColor: "#f5f5f5",
   },
@@ -66,7 +65,6 @@ export default function CardSubject(props) {
     await updateRow(subject.id, { name: name });
     props.onUpdated();
     setIsloading(false);
-    setName("");
     handleClose();
   };
 
