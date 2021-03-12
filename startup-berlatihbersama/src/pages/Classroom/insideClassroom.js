@@ -15,7 +15,7 @@ import {
 import qoreContext from "../../qoreContext";
 import { useParams, useHistory } from "react-router-dom";
 import CardSubject from "../../components/cardSubject";
-import { ArrowBack, Settings, AccountCircle } from "@material-ui/icons";
+import { AccountCircle } from "@material-ui/icons";
 import RoomHeader from "./RoomHeader";
 // import EmptyClassroom from "../../components/emptyChalkboard";
 
@@ -61,27 +61,30 @@ const useStyles = makeStyles((theme) => ({
 export default function InsideClassroom() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [buka, setBuka] = React.useState(false);
-  const [edit, setEdit] = useState("");
+  const [, setBuka] = React.useState(false);
+  const [edit] = useState("");
   const { someClassroomId } = useParams();
   const [subj, setSubj] = useState("");
   const history = useHistory();
   const [toogle, setToogle] = React.useState(0);
   const [modalStyle] = React.useState(getModalStyle);
 
-  const { data: classroom, status } = qoreContext
+  const { data: classroom, status, revalidate: roomRevalidate } = qoreContext
     .view("allClassroom")
     .useGetRow(someClassroomId);
 
   const { data: subjects, revalidate: subjectRevalidate } = qoreContext
     .view("classroomSubject")
-    .useListRow({
-      roomId: someClassroomId,
-    });
+    .useListRow(
+      {
+        roomId: someClassroomId,
+      },
+      { networkPolicy: "cache-only" }
+    );
 
   const { insertRow } = qoreContext.view("allSubject").useInsertRow();
 
-  const { addRelation, removeRelation, statuses, errors } = qoreContext
+  const { addRelation } = qoreContext
     .view("allClassroom")
     .useRelation(someClassroomId);
 
@@ -107,12 +110,6 @@ export default function InsideClassroom() {
     // window.location.reload();
   }
 
-  async function handleEditClass(e) {
-    e.preventDefault();
-    await updateRow(someClassroomId, {
-      name: edit,
-    }).then(handleTutup);
-  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -123,17 +120,11 @@ export default function InsideClassroom() {
     setOpen(false);
   };
 
-  const handleBuka = () => {
-    setBuka(true);
-  };
 
-  const handleTutup = (e) => {
+  const handleTutup = () => {
     setBuka(false);
   };
 
-  const handleBackClass = (e) => {
-    history.push("/");
-  };
 
   const handleSwitch = (e, newValue) => {
     setToogle(newValue);
@@ -177,7 +168,7 @@ export default function InsideClassroom() {
     <>
       {status == "success" ? (
         <>
-          <RoomHeader room={classroom} />
+          <RoomHeader room={classroom} onUpdated={roomRevalidate} />
           <main style={{ flexGrow: 1 }}>
             <Container maxWidth="lg">
               <Tabs
@@ -218,11 +209,15 @@ export default function InsideClassroom() {
                         {body}
                       </Modal>
                     </div>
-                    <Grid container>
+                    <Grid container spacing={2}>
                       {subjects.map((subject) => {
                         return (
-                          <Grid item sm={3}>
-                            <CardSubject subject={subject} onUpdated={subjectRevalidate} key={subject.id} />
+                          <Grid item sm={12} lg={3}>
+                            <CardSubject
+                              subject={subject}
+                              onUpdated={subjectRevalidate}
+                              key={subject.id}
+                            />
                           </Grid>
                         );
                       })}
@@ -250,7 +245,7 @@ export default function InsideClassroom() {
                             Guru ({classroom.teacher.totalCount})
                           </Typography>
                         </div>
-                        {classroom.teacher.nodes.map((nod, i) => {
+                        {classroom.teacher.nodes.map((nod) => {
                           return (
                             <div
                               style={{
@@ -286,7 +281,7 @@ export default function InsideClassroom() {
                             Siswa ({classroom.student.totalCount})
                           </Typography>
                         </div>
-                        {classroom.student.nodes.map((nod, i) => {
+                        {classroom.student.nodes.map((nod) => {
                           return (
                             <div
                               style={{
