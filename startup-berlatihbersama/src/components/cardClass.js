@@ -195,32 +195,36 @@ export default function CardClass({ room, onUpdated }) {
   );
 
   const editMenu = (
-    <Menu
-      id="simple-menu"
-      anchorEl={anchorEl}
-      open={Boolean(anchorEl)}
-      onClose={() => setAnchorEl(null)}
-    >
-      <MenuItem
-        style={{ color: "blue" }}
-        onClick={() => {
-          setOpenEditForm(true);
-          setAnchorEl(null);
-        }}
+    <>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        open={anchorEl !== null}
+        onClose={() => setAnchorEl(null)}
       >
-        Edit
-      </MenuItem>
+        <MenuItem
+          style={{ color: "blue" }}
+          onClick={() => {
+            setOpenEditForm(true);
+            setAnchorEl(null);
+          }}
+        >
+          Edit
+        </MenuItem>
 
-      <MenuItem
-        style={{ color: "red" }}
-        onClick={() => {
-          setOpenDeleteDialog(true);
-          setAnchorEl(null);
-        }}
-      >
-        Hapus
-      </MenuItem>
-    </Menu>
+        <MenuItem
+          style={{ color: "red" }}
+          onClick={() => {
+            setOpenDeleteDialog(true);
+            setAnchorEl(null);
+          }}
+        >
+          Hapus
+        </MenuItem>
+      </Menu>
+      {formEdit}
+      {deleteConfirmDialog}
+    </>
   );
 
   return (
@@ -252,8 +256,6 @@ export default function CardClass({ room, onUpdated }) {
             </IconButton>
           </Box>
           {editMenu}
-          {formEdit}
-          {deleteConfirmDialog}
           <Typography style={{ fontSize: 14 }} onClick={handleOpenRoom}>
             Tahun Ajaran: {room.schoolYear}
           </Typography>
