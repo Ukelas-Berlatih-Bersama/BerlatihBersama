@@ -50,25 +50,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CardClass({ room }) {
-  // console.log(room, ">>>room");
+export default function CardClass({ room, onUpdated }) {
   const classes = useStyles();
 
-  const [open, setOpen] = useState(false);
-  const [buka, setBuka] = useState(false);
-  const [edit, setEdit] = useState("");
-  const [year, setYear] = useState("");
+  const [name, setName] = useState(room.name);
+  const [year, setYear] = useState(room.schoolYear);
+  const [openEditForm, setOpenEditForm] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalStyle] = React.useState(getModalStyle);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { updateRow } = qoreContext.view("allClassroom").useUpdateRow();
-  // console.log(status, "status<<<<");
-  // console.log(updateRow, "<<< update");
-
   const { deleteRow } = qoreContext.view("allClassroom").useDeleteRow();
-  // console.log(deleteRow, "delete <<<<");
 
   const history = useHistory();
+
   const handleOpenRoom = (event) => {
     if (event.target == event.currentTarget) {
       event.stopPropagation();
@@ -76,198 +73,191 @@ export default function CardClass({ room }) {
     }
   };
 
-  async function editClassroom(event) {
+  const handleEdit = async (event) => {
     event.preventDefault();
-    await updateRow(room.id, { name: edit, schoolYear: year }).then(
-      window.location.reload()
-    );
-  }
-
-  const handleOpen = (event) => {
-    event.preventDefault();
-    setOpen(true);
+    setIsLoading(true);
+    await updateRow(room.id, { name: name, schoolYear: year }).then(() => {
+      onUpdated();
+      setIsLoading(false);
+      setOpenEditForm(false);
+    });
   };
 
-  const handleClose = () => {
-    setBuka(false);
-    setOpen(false);
+  const handleDelete = async () => {
+    setIsLoading(true);
+    await deleteRow(room.id).then(() => {
+      onUpdated();
+      setIsLoading(false);
+      setOpenDeleteDialog(false);
+    });
   };
 
-  const handleMore = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const formEdit = (
+    <Modal
+      open={openEditForm}
+      onClose={() => setOpenEditForm(false)}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <form onSubmit={handleEdit} className={classes.modal}>
+        <Typography variant="h6" style={{ fontWeight: "bold" }}>
+          Edit Kelas
+        </Typography>
+        <div>
+          <Typography style={{ marginBottom: 10, marginTop: 16 }}>
+            Nama kelas
+          </Typography>
+          <TextField
+            variant="outlined"
+            required
+            placeholder="Nama kelas"
+            value={name}
+            autoFocus
+            fullWidth
+            onChange={(e) => setName(e.target.value)}
+          ></TextField>
+        </div>
+        <div>
+          <Typography style={{ marginBottom: 10, marginTop: 16 }}>
+            Tahun Ajaran
+          </Typography>
+          <TextField
+            variant="outlined"
+            required
+            placeholder="Tahun Ajaran"
+            value={year}
+            fullWidth
+            onChange={(e) => setYear(e.target.value)}
+          ></TextField>
+        </div>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button color="secondary" onClick={() => setOpenEditForm(false)}>
+            Tutup
+          </Button>
+          <Button color="primary" type="submit" disabled={isLoading}>
+            Simpan
+          </Button>
+        </div>
+      </form>
+    </Modal>
+  );
 
-  const handleShut = (event) => {
-    event.preventDefault();
-    setAnchorEl(null);
-  };
-
-  const handleBuka = () => {
-    setBuka(true);
-  };
+  const deleteConfirmDialog = (
+    <Modal
+      open={openDeleteDialog}
+      onClose={() => setOpenDeleteDialog(false)}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div style={modalStyle} className={classes.modal}>
+        <Typography variant="h6" id="simple-modal-title">
+          Hapus {room.name}?
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          id="simple-modal-description"
+          style={{ color: "gray", margin: "15px 0 15px 0" }}
+        >
+          Anda yakin untuk menghapus kelas ini? Setelah dihapus, {room.name}{" "}
+          tidak dapat dikembalikan lagi. Semua data yang ada akan terhapus.
+        </Typography>
+        <ButtonGroup
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+          size="small"
+        >
+          <Button
+            style={{ marginRight: 25 }}
+            variant="text"
+            onClick={() => setOpenDeleteDialog(false)}
+          >
+            Batal
+          </Button>
+          <Button
+            variant="text"
+            color="secondary"
+            onClick={handleDelete}
+            disabled={isLoading}
+          >
+            Hapus
+          </Button>
+        </ButtonGroup>
+      </div>
+    </Modal>
+  );
 
   const editMenu = (
     <Menu
       id="simple-menu"
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
-      onClose={handleShut}
+      onClose={() => setAnchorEl(null)}
     >
-      <MenuItem style={{ color: "blue" }} onClick={handleOpen}>
+      <MenuItem
+        style={{ color: "blue" }}
+        onClick={() => {
+          setOpenEditForm(true);
+          setAnchorEl(null);
+        }}
+      >
         Edit
       </MenuItem>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+
+      <MenuItem
+        style={{ color: "red" }}
+        onClick={() => {
+          setOpenDeleteDialog(true);
+          setAnchorEl(null);
         }}
       >
-        <form onSubmit={editClassroom} className={classes.modal}>
-          <Typography variant="h6" style={{ fontWeight: "bold" }}>
-            Edit Kelas
-          </Typography>
-          <div>
-            <Typography
-              variant="subtitle1"
-              style={{ margin: "10px 0 -10px 0" }}
-            >
-              Nama kelas
-            </Typography>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              id="kelas"
-              label="Nama kelas"
-              name="kelas"
-              value={edit}
-              autoFocus
-              fullWidth
-              onChange={(e) => setEdit(e.target.value)}
-            ></TextField>
-          </div>
-          <div>
-            <Typography
-              variant="subtitle1"
-              style={{ margin: "10px 0 -10px 0" }}
-            >
-              Tahun Ajaran
-            </Typography>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              id="kelas"
-              label="Tahun Ajaran"
-              name="kelas"
-              value={year}
-              fullWidth
-              onChange={(e) => setYear(e.target.value)}
-            ></TextField>
-          </div>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button color="primary" type="submit">
-              Edit
-            </Button>
-            <Button color="secondary" onClick={handleClose}>
-              Tutup
-            </Button>
-          </div>
-        </form>
-      </Modal>
-      <MenuItem style={{ color: "red" }} onClick={handleBuka}>
         Hapus
       </MenuItem>
-      <Modal
-        open={buka}
-        onClose={handleClose}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div style={modalStyle} className={classes.modal}>
-          <Typography variant="h6" id="simple-modal-title">
-            Hapus {room.name}?
-          </Typography>
-          <Typography
-            variant="subtitle2"
-            id="simple-modal-description"
-            style={{ color: "gray", margin: "15px 0 15px 0" }}
-          >
-            Anda yakin untuk menghapus kelas ini? Setelah dihapus, {room.name}{" "}
-            tidak dapat dikembalikan lagi. Semua data yang ada akan terhapus.
-          </Typography>
-          <ButtonGroup
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-            size="small"
-          >
-            <Button
-              style={{ paddingRight: 25 }}
-              variant="text"
-              color="primary"
-              onClick={handleClose}
-            >
-              Batal
-            </Button>
-            <Button
-              variant="text"
-              color="secondary"
-              onClick={async (e) => {
-                e.preventDefault();
-                await deleteRow(room.id).then(() => {
-                  window.location.reload();
-                });
-              }}
-            >
-              Hapus
-            </Button>
-          </ButtonGroup>
-        </div>
-      </Modal>
     </Menu>
   );
 
   return (
     <Card className={classes.root}>
       <CardActionArea component="div">
-      <CardContent className={classes.content} onClick={handleOpenRoom}>
-        <Box
-          onClick={handleOpenRoom}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography
-            variant="h5"
-            component="h5"
+        <CardContent className={classes.content} onClick={handleOpenRoom}>
+          <Box
             onClick={handleOpenRoom}
-            style={{ fontWeight: "bold" }}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            {room.name}
-          </Typography>
+            <Typography
+              variant="h5"
+              component="h5"
+              onClick={handleOpenRoom}
+              style={{ fontWeight: "bold" }}
+            >
+              {room.name}
+            </Typography>
 
-          <IconButton
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleMore}
-            style={{ color: "white" }}
-          >
-            <MoreVert />
-          </IconButton>
-        </Box>
-        {editMenu}
-        <Typography style={{ fontSize: 14 }} onClick={handleOpenRoom}>
-          Tahun Ajaran: {room.schoolYear}
-        </Typography>
-      </CardContent>
+            <IconButton
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={(event) => setAnchorEl(event.currentTarget)}
+              style={{ color: "white" }}
+            >
+              <MoreVert />
+            </IconButton>
+          </Box>
+          {editMenu}
+          {formEdit}
+          {deleteConfirmDialog}
+          <Typography style={{ fontSize: 14 }} onClick={handleOpenRoom}>
+            Tahun Ajaran: {room.schoolYear}
+          </Typography>
+        </CardContent>
       </CardActionArea>
       <Box
         className={classes.footer}
