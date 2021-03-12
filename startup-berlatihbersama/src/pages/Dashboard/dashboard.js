@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Container, Grid, Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
-import Footer from "../../components/footer";
+import Footer from "../../components/Footer";
 import Classroom from "../../components/cardClass";
 import qoreContext from "../../qoreContext";
 
-import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 
 import chalkBoardIllustration from "../../image/illustration/class-chalkboard.svg";
