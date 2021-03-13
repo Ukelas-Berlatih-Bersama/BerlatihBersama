@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   MenuItem,
   MenuList,
@@ -9,9 +9,10 @@ import {
   Popper,
   Grow,
   ClickAwayListener,
+  Hidden,
 } from "@material-ui/core";
 import Skeleton from '@material-ui/lab/Skeleton';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/actionUser";
 import { useHistory } from "react-router-dom";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
@@ -20,7 +21,7 @@ import qoreContext from "../../qoreContext";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 
-const ProfileMenu = function (props) {
+const ProfileMenu = function () {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -29,9 +30,11 @@ const ProfileMenu = function (props) {
 
   const { user, status } = qoreContext.useCurrentUser();
 
-  if(status === "success"){
-    localStorage.setItem("user_id", user.data.id);
-  }
+  useEffect(() => {
+    if(status === "success"){
+      localStorage.setItem("user_id", user.data.id);
+    }
+  },[status]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -39,6 +42,7 @@ const ProfileMenu = function (props) {
   };
 
   const handleToProfile = () => {
+    setOpen(false);
     history.push("/profile");
   }
 
@@ -50,7 +54,6 @@ const ProfileMenu = function (props) {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -73,6 +76,7 @@ const ProfileMenu = function (props) {
   return (
     <>
       <Avatar style={{ borderRadius: "4px", margin: "auto 1em" }} src="https://randomuser.me/api/portraits/men/20.jpg" onClick={handleToggle}>JD</Avatar>
+      <Hidden only={["xs", "sm"]}>
       <div style={{ marginRight: "1em" }}>
         <Typography
           variant="body1"
@@ -90,6 +94,7 @@ const ProfileMenu = function (props) {
           {status === "success" ? user.email : <Skeleton variant="text" width={120}/>}
         </Typography>
       </div>
+      </Hidden>
       <IconButton
         onClick={handleToggle}
         ref={anchorRef}

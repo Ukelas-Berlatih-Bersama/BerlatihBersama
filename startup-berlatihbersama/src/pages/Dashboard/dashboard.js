@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Container, Grid, Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
-import Footer from "../../components/footer";
+import Footer from "../../components/Footer";
 import Classroom from "../../components/cardClass";
 import qoreContext from "../../qoreContext";
 
-import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 
 import chalkBoardIllustration from "../../image/illustration/class-chalkboard.svg";
@@ -24,7 +23,7 @@ const useStyle = makeStyles((theme) => ({
 function Dashboard() {
   const classes = useStyle();
 
-  const { data: classrooms, status } = qoreContext
+  const { data: classrooms, status, revalidate } = qoreContext
     .view("teacherClassroom")
     .useListRow({
       teacherId: localStorage.getItem("user_id"),
@@ -74,7 +73,7 @@ function Dashboard() {
   return (
     <>
       <CssBaseline />
-      <Header />
+      <Header onRoomAdded={revalidate} />
       {classrooms.length > 0 ? (
         <Container maxWidth="lg">
           <main style={{ flexGrow: 2 }}>
@@ -83,7 +82,7 @@ function Dashboard() {
                 {classrooms.map((room, i) => {
                   return (
                     <Grid item xs={4} key={i}>
-                      <Classroom room={room} key={i} />
+                      <Classroom room={room} key={i} onUpdated={revalidate}/>
                     </Grid>
                   );
                 })}
